@@ -43,12 +43,16 @@ const Login = (props) => {
         console.log('clicked')
         axios.post("/password/forgot", { email_address: email2 })
         .then(resp => {
-            if(resp.data.status == 'ok'){
-                setMessage(resp.data.message)
+            if (resp.data.status == 'ok') {
+                console.log(resp)
             }
+            else {
+                console.log(resp)
+            }
+
         })
-        
-    }
+    setEmail2('')
+}
 
     const ForgotPasswordForm = () => (
             <div className="input-contain">
