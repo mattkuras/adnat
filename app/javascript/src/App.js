@@ -2,6 +2,8 @@ import React, { useState, useEffect } from "react"
 import './App.css';
 import { Redirect, Route, BrowserRouter as Router } from "react-router-dom"
 import Axios from 'axios'
+import Dashboard from './components/dashboard/dashboard'
+import SignUp from "./components/registrations/signup";
 
 
 function App() {
@@ -38,10 +40,11 @@ function App() {
     setLoggedIn(false)
   }
   return (
-      <div>hello world!!</div>
-    // <Router>
-    
-    // </Router>
+    <Router>
+      <Route exact path="/"> <Landing/> </Route>
+      <Route exact path='/dashboard'><Dashboard/>{loggedIn ? null : < Redirect to='/'/>}</Route>
+      <Route exact path='/signup'><SignUp/></Route>
+    </Router>
   );
 }
 

@@ -1,0 +1,93 @@
+@import url("https://fonts.googleapis.com/css2?family=Quicksand&display=swap");
+
+.signup-form {
+  width: 600px;
+  height: 70%;
+  display: flex;
+  flex-direction: column;
+  font-family: "Quicksand", sans-serif;
+  border: 1px solid #ccc;
+  background-color: #fff;
+  border-radius: 5px;
+  padding: 2rem;
+  margin: 10px auto;
+  box-shadow: rgba(0, 0, 0, 0.02) 0px 1px 3px 0px, rgba(27, 31, 35, 0.15) 0px 0px 0px 1px;
+}
+h2 {
+  text-align: center;
+  margin-bottom: 15px;
+}
+.input-container {
+  width: 100%;
+  display: flex;
+  margin: auto;
+}
+.input-container input {
+  width: 100%;
+  margin: 20px 0;
+  line-height: 2em;
+  background: #fafafa;
+}
+
+.input.split {
+  width: 48.5%;
+}
+.input-container.dub {
+  display: flex;
+  justify-content: space-between ;
+}
+
+.signup-button {
+  margin: 25px auto;
+  padding: 10px 25px;
+  width: 200px;
+  background-color: #000;
+  outline: none;
+  text-decoration: none;
+  border: 1px solid #000;
+  border-radius: 4px;
+  color: #fff;
+  box-shadow: rgba(0, 0, 0, 0.16) 0px 3px 6px, rgba(0, 0, 0, 0.23) 0px 3px 6px;
+}
+
+.signup-button:hover {
+  cursor: pointer;
+  color: #000;
+  background-color: #fff;
+  border: 1px solid #000;
+}
+
+.sub-btn{
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+}
+
+@media only screen and (max-width: 700px) {
+  .signup-form {
+    width: 380px;
+  }
+}
+
+@media only screen and (max-width:500px) {
+  .submit {
+    width: 30%;
+  }
+ 
+}
+
+.message-sent {
+  margin: 10px auto 0;
+  padding: 10px 25px;
+  background: #97e6b1;
+  font-family: "Nanum Gothic", sans-serif;
+}
+.message-sent p {
+  color: black;
+}
+.close {
+  /* position: absolute; */
+  text-align: right;
+  font-size: 2rem;
+  cursor: pointer;
+}
