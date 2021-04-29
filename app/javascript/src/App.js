@@ -8,7 +8,7 @@ import Signup from './components/registrations/signup'
 import Dashboard from './components/landing/dashboard'
 
 function App() {
-  const [user, setUser] = useState(null)
+  const [user, setUser] = useState()
 
   const [loggedIn, setLoggedIn] = useState(false)
 
@@ -21,21 +21,24 @@ function App() {
         }
       })
         .then(resp => {
-          console.log('1', resp.data)
-          console.log('2', resp.data.user)
           if (resp.data.user) {
+          console.log('use effect just got user')
+
             setUser(resp.data.user)
             setLoggedIn(true)
+          }
+          else {
+            setMember(resp.data)
+            setLoggedIn(false)
           }
         })
     }
   }, [])
 
   const handleLogin = (user) => {
-    if (user) {
+    if (user.name) {
       setUser(user)
-      setLoggedIn(true)
-    }
+    setLoggedIn(true)}
   }
   const handleLogout = () => {
     localStorage.clear()
@@ -43,7 +46,7 @@ function App() {
     setLoggedIn(false)
   }
 
- 
+
 
 
   return (
@@ -52,8 +55,10 @@ function App() {
       <Route path='/login'><Login handleLogin={handleLogin} /></Route>
       <Route path='/signup'><Signup handleLogin={handleLogin} /></Route>
       <Route path='/dashboard'>
+        {console.log(user, {loggedin: loggedIn})}
+        {loggedIn && user != null ? console.log(true) : console.log(false)}
         <Dashboard user={user} handleLogout={handleLogout} />
-        {loggedIn && user  ? null : <Redirect to="/login" />}
+        {loggedIn && user != null ? null : <Redirect to="/login" />}
       </Route>
     </Router>
   );
