@@ -1,7 +1,7 @@
 class User < ApplicationRecord
   has_secure_password
   has_many :shifts
-  belongs_to :organization, optional: true
+  has_many :organizations, through: :jobs
 
   def generate_password_token!
     self.reset_password_token = generate_token

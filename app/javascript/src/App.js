@@ -21,8 +21,10 @@ function App() {
         }
       })
         .then(resp => {
+          console.log('1', resp.data)
+          console.log('2', resp.data.user)
           if (resp.data.user) {
-            setUser(resp.data)
+            setUser(resp.data.user)
             setLoggedIn(true)
           }
         })
