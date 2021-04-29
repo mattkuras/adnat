@@ -13,6 +13,10 @@ function App() {
   const [loggedIn, setLoggedIn] = useState(false)
 
   useEffect(() => {
+    getLogin()
+  }, [])
+
+  const getLogin = () => {
     const token = localStorage.getItem("token")
     if (token) {
       Axios.get('/auto_login', {
@@ -33,7 +37,7 @@ function App() {
           }
         })
     }
-  }, [])
+  }
 
   const handleLogin = (user) => {
     if (user.name) {
@@ -55,10 +59,9 @@ function App() {
       <Route path='/login'><Login handleLogin={handleLogin} /></Route>
       <Route path='/signup'><Signup handleLogin={handleLogin} /></Route>
       <Route path='/dashboard'>
-        {console.log(user, {loggedin: loggedIn})}
-        {loggedIn && user != null ? console.log(true) : console.log(false)}
+        
         <Dashboard user={user} handleLogout={handleLogout} />
-        {loggedIn && user != null ? null : <Redirect to="/login" />}
+        {/* {loggedIn && user != null ? null : <Redirect to="/login" />} */}
       </Route>
     </Router>
   );

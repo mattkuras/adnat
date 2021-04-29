@@ -5,6 +5,7 @@ Rails.application.routes.draw do
   resource :organizations, only: [:create]
   resource :jobs, only: [:create]
 
+  get '/organizations', to: 'organizations#index'
   post 'password/forgot', to: 'passwords#forgot'
   patch 'password/reset/:id', to: 'passwords#reset'
   post "/login", to: "sessions#login"
