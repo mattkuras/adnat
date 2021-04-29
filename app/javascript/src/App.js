@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react"
 import './App.css';
-import { Redirect, Route, BrowserRouter as Router } from "react-router-dom"
+import { Redirect, Route, useHistory, BrowserRouter as Router } from "react-router-dom"
 import Axios from 'axios'
 import Login from './components/registrations/login'
 import Landing from './components/landing/landing'
@@ -40,11 +40,15 @@ function App() {
     setUser({})
     setLoggedIn(false)
   }
+
+ 
+
+
   return (
     <Router>
       <Route exact path='/'><Landing /></Route>
       <Route path='/login'><Login handleLogin={handleLogin} /></Route>
-      <Route path='/signup'><Signup /></Route>
+      <Route path='/signup'><Signup handleLogin={handleLogin} /></Route>
       <Route path='/dashboard'>
         <Dashboard user={user} handleLogout={handleLogout} />
         {loggedIn && user  ? null : <Redirect to="/login" />}

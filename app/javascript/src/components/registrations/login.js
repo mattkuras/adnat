@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
-import { useHistory } from "react-router-dom";
 import axios from 'axios'
 import './login.css'
+import {useHistory} from 'react-router-dom'
+
 
 const Login = (props) => {
 
@@ -34,11 +35,12 @@ const Login = (props) => {
         setEmail('')
     }
 
+
     let history = useHistory()
     const redirect = () => {
         history.push("/dashboard");
     };
-
+   
     const resetPassword = (event) => {
         event.preventDefault()
         console.log('clicked')
