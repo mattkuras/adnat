@@ -25,10 +25,10 @@ function App() {
         }
       })
         .then(resp => {
-          if (resp.data.user) {
-          console.log('use effect just got user')
+          if (resp.data.id) {
+          console.log(resp.data)
 
-            setUser(resp.data.user)
+            setUser(resp.data)
             setLoggedIn(true)
           }
           else {

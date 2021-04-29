@@ -1,6 +1,7 @@
 class User < ApplicationRecord
   has_secure_password
   has_many :shifts
+  has_many :jobs
   has_many :organizations, through: :jobs
 
   def generate_password_token!
