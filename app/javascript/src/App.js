@@ -5,7 +5,7 @@ import Axios from 'axios'
 import Login from './components/registrations/login'
 import Landing from './components/landing/landing'
 import Signup from './components/registrations/signup'
-import Dashboard from './components/landing/dashboard'
+import Dashboard from './components/landing/dash/dashboard'
 
 function App() {
   const [user, setUser] = useState()
