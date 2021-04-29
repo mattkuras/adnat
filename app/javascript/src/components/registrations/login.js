@@ -1,15 +1,16 @@
 import React, { useState } from 'react';
 import { useHistory } from "react-router-dom";
 import axios from 'axios'
+import './login.css'
 
 const Login = (props) => {
 
     const [email, setEmail] = useState("");
-    const [email2, setEmail2] = useState("");
     const [password, setPassword] = useState("");
     const [forgotPassword, setForgotPassword] = useState(false)
     const [messageSent, setMessageSent] = useState(false)
     const [message, setMessage] = useState('')
+    const [forgotPasswordEmail, setForgotPasswordEmail] = useState("");
 
     const handleSubmit = (event) => {
         event.preventDefault();
@@ -41,32 +42,21 @@ const Login = (props) => {
     const resetPassword = (event) => {
         event.preventDefault()
         console.log('clicked')
-        axios.post("/password/forgot", { email_address: email2 })
-        .then(resp => {
-            if (resp.data.status == 'ok') {
-                console.log(resp)
-            }
-            else {
-                console.log(resp)
-            }
+        axios.post("/password/forgot", { email_address: forgotPasswordEmail })
+            .then(resp => {
+                if (resp.data.status == 'ok') {
+                    setMessage(resp.data.message)
+                    setMessageSent(true)
+                }
+                else {
+                    setMessage(resp.data.error)
+                    console.log(resp.data.error)
+                    setMessageSent(true)
+                }
+            })
+        setForgotPasswordEmail('')
+    }
 
-        })
-    setEmail2('')
-}
-
-    const ForgotPasswordForm = () => (
-            <div className="input-contain">
-                <label for="username">Enter you email </label>
-                <input
-                    className="user-input"
-                    type="text"
-                    placeholder="Enter Email"
-                    value={email2}
-                    onChange={(e) => setEmail2(e.target.value)}
-                />
-            <input className='button' type="submit" onClick={resetPassword}/>
-            </div>
-    )
 
     const renderOk = () => {
         return (
@@ -103,10 +93,21 @@ const Login = (props) => {
                     </div>
                     <input className='button' type="submit" />
                 </form>
-                {forgotPassword ? <ForgotPasswordForm/> : <a onClick={e => setForgotPassword(true)}><p>forgot password?</p></a>}
+                {forgotPassword ? <div className="forgot-password-div">
+                    <label for="username">Enter you email </label>
+                    <input
+                        className="user-input"
+                        type="text"
+                        placeholder="Enter Email"
+                        value={forgotPasswordEmail}
+                        onChange={(e) => setForgotPasswordEmail(e.target.value)}
+                    />
+                    <input className='button' type="submit" onClick={resetPassword} />
+                </div> : <a onClick={e => setForgotPassword(true)}><p>forgot password?</p></a>}
+                {messageSent ? renderOk() : null}
+
                 {/* <ForgotPasswordForm/> */}
             </div>
-            {messageSent ? renderOk() : null}
         </div>
     );
 }

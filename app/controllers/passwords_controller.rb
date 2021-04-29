@@ -6,12 +6,12 @@ class PasswordsController < ApplicationController
         end
         user = User.find_by(email_address: params[:email_address]) # if present find user by email
 
-        if user.present?
+        if user
           user.generate_password_token! #generate pass token
-          PasswordMailer.send_password_reset_email(user).deliver_now
-          render json: {message: 'An email has been sent'}, status: 'ok'
+          render json: {message: 'An email has been sent', status: 'ok'}
+          # PasswordMailer.send_password_reset_email(user).deliver_now
         else
-          render json: {error: 'Email address not found. Please check and try again.'}, status: :not_found
+          render json: {error: 'Email address not found. Please check and try again.'}
         end
       end
     

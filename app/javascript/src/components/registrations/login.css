@@ -1,0 +1,73 @@
+@import url("https://fonts.googleapis.com/css2?family=Quicksand&display=swap");
+
+.login-form {
+  display: flex;
+  flex-direction: column;
+  padding: 2rem;
+  width: 600px;
+  align-items: center;
+  font-family: "Quicksand", sans-serif;
+  border: 1px solid #ccc;
+  background-color: #fff;
+  border-radius: 2px;
+  padding: 2rem;
+  margin: 25px auto;
+  box-shadow: rgba(0, 0, 0, 0.02) 0px 1px 3px 0px, rgba(27, 31, 35, 0.15) 0px 0px 0px 1px;
+}
+
+.input-container {
+  display: flex;
+  align-items: center;
+  justify-content: space-evenly;
+}
+
+#button {
+  margin-top: 25px;
+  padding: 10px 25px;
+  background-color: #000;
+  outline: none;
+  text-decoration: none;
+  border: 1px solid #000;
+  border-radius: 4px;
+  color: #fff;
+  box-shadow: rgba(0, 0, 0, 0.16) 0px 3px 6px, rgba(0, 0, 0, 0.23) 0px 3px 6px;
+}
+
+#button:hover {
+  cursor: pointer;
+  color: #000;
+  background-color: #fff;
+  border: 1px solid #000;
+}
+
+
+.input {
+  margin: 2rem 1rem;
+  width: 60%;
+}
+.forgot-password-div {
+    margin: auto;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.login-container p {
+    margin: auto;
+    text-align: center;
+}
+
+@media only screen and (max-width: 630px) {
+  .login-form {
+    width: 400px;
+  }
+}
+
+@media only screen and (max-width: 500px) {
+  .login-form {
+    width: 300px;
+  }
+
+  .admin-login-title {
+    margin-bottom: 30px;
+  }
+}
