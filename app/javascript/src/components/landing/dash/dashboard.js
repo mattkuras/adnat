@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
-import { Switch, Route, Link, useRouteMatch } from 'react-router-dom';
+import { Switch, Route, Link, useRouteMatch, useHistory } from 'react-router-dom';
 import Axios from 'axios'
 import EditOrg from '../dash/edit'
-import CreateOrg from '../dash/create'
+import Org from './org'
 import Home from '../dash/home'
 import './dashboard.css'
 
@@ -28,7 +28,12 @@ const Dashboard = (props) => {
         })
     }
 
-   
+
+    let history = useHistory()
+    const redirect = () => {
+        history.push("/dashboard");
+    };
+
 
     let { path, url } = useRouteMatch();
 
@@ -39,9 +44,13 @@ const Dashboard = (props) => {
 
             </div>
             <Switch>
-                <Route exact path={path}><Home user={user} orgs={orgs} /></Route>
-                <Route path={`${path}/editorg`}><EditOrg /></Route>
-                <Route path={`${path}/createorg`}><CreateOrg /></Route>
+                <Route exact path={path}
+                    render={props => (
+                        <Home {...props} user={user} orgs={orgs} />
+                    )}
+                ></Route>
+                <Route path={`${path}/editorg/:id`}><EditOrg redirect={redirect} orgs={orgs} /></Route>
+                <Route path={`${path}/orgs/:id`}><Org redirect={redirect} /></Route>
             </Switch>
         </>
     );
