@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 import axios from 'axios'
 import './login.css'
 import {useHistory} from 'react-router-dom'
@@ -13,6 +13,7 @@ const Login = (props) => {
     const [message, setMessage] = useState('')
     const [forgotPasswordEmail, setForgotPasswordEmail] = useState("");
 
+
     const handleSubmit = (event) => {
         event.preventDefault();
         let user = {
@@ -23,7 +24,7 @@ const Login = (props) => {
             .then(resp => {
                 if (resp.data.success) {
                     localStorage.setItem("token", resp.data.jwt)
-                    props.handleLogin(resp.data.user)
+                    props.handleLogin(resp.data.user, resp.data.user_orgs)
                     redirect()
                 }
                 else {

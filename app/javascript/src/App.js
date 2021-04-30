@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react"
+import { UserContext } from './userContext.js'
 import './App.css';
 import { Redirect, Route, useHistory, BrowserRouter as Router } from "react-router-dom"
 import Axios from 'axios'
@@ -9,14 +10,14 @@ import Dashboard from './components/landing/dash/dashboard'
 
 function App() {
   const [user, setUser] = useState({})
-  const [isLoading, setIsLoading] = useState(true)
+  const [userOrgs, setUserOrgs] = useState([])
   const [loggedIn, setLoggedIn] = useState(false)
 
   useEffect(() => {
-    getLogin()
+    autoLogin()
   }, [])
 
-  const getLogin = () => {
+  const autoLogin = () => {
     const token = localStorage.getItem("token")
     if (token) {
       Axios.get('/auto_login', {
@@ -25,25 +26,22 @@ function App() {
         }
       })
         .then(resp => {
-          if (resp.data.id) {
-          console.log('about to set user')
-            setUser(resp.data)
-          console.log('about to set logged in')
-            setLoggedIn(true)
-            setIsLoading(false)
+          if (resp.data.success) {
+            console.log('about to set logged in in app.js')
+            handleLogin(resp.data.user, resp.data.user_orgs)
           }
           else {
-            setUser(resp.data)
+            setUser({})
             setLoggedIn(false)
           }
         })
     }
   }
 
-  const handleLogin = (user) => {
-    if (user.name) {
-      setUser(user)
-    setLoggedIn(true)}
+  const handleLogin = (user, orgs) => {
+    setUser(user)
+    setUserOrgs(orgs)
+    setLoggedIn(true)
   }
   const handleLogout = () => {
     localStorage.clear()
@@ -56,20 +54,15 @@ function App() {
 
   return (
     <Router>
-      <Route exact path='/'><Landing /></Route>
-      <Route path='/login'><Login handleLogin={handleLogin} /></Route>
-      <Route path='/signup'><Signup handleLogin={handleLogin} /></Route>
-      {/* <Route path='/dashboard'>
-        <Dashboard user={user} handleLogout={handleLogout} />
-      </Route> */}
-
-      <Route path='/dashboard'
-        render={props => (
-          <Dashboard {...props}  user={user} handleLogout={handleLogout} />
-        )}>
-        {/* {loggedIn && user != null ? null : <Redirect to="/login" />} */}
-
-      </Route>
+      <UserContext.Provider value={{ user, userOrgs, setUserOrgs }} >
+        <Route exact path='/'><Landing /></Route>
+        <Route path='/login'><Login handleLogin={handleLogin} /></Route>
+        <Route path='/signup'><Signup handleLogin={handleLogin} /></Route>
+        <Route path='/dashboard'>
+          <Dashboard handleLogout={handleLogout} />
+          {/* {loggedIn ? null : <Redirect to="/login" />} */}
+        </Route>
+      </UserContext.Provider >
     </Router>
   );
 }

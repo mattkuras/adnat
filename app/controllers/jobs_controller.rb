@@ -2,7 +2,7 @@ class JobsController < ApplicationController
     def create
         job = Job.new(job_params)
         if job.save 
-            render json: {success: job}
+            render json: {success: 'ok', org: job.organization }
         else
             render json: {error: 'there was an error joining this organization'}
         end

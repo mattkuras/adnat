@@ -1,28 +1,24 @@
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 import { Link, useRouteMatch, useHistory } from 'react-router-dom';
 import './home.css'
 import Axios from 'axios'
+import { UserContext} from '../../../userContext';
 
 
 const Home = (props) => {
     const [message, setMessage] = useState('')
-    const user = props.user
-    const orgs = props.orgs
+    const context = useContext(UserContext)
+
     let { path, url } = useRouteMatch();
 
     const NoOrgsMessage = () => {
-        if (user.organizations !== undefined && user.organizations.length > 0) {
-            return null
-        }
-        else {
             return <div>
                 <h3>You're not yet a member of any organizations. Join an existing one or create a new one.</h3>
             </div>
-        }
     }
 
     const joinOrg = (orgId) => {
-        if (user.organizations.find(org => org.id == orgId)) {
+        if (props.orgs.find(org => org.id == orgId)) {
             setMessage("you're already a member of that organization")
         }
         else {
@@ -36,7 +32,7 @@ const Home = (props) => {
                 })
                     .then(resp => {
                         if (resp.data.success) {
-                            console.log(resp.data)
+                            setUserOrgs(userOrgs.push(resp.data.org))
                             setMessage("you're in!")
                             redirect(orgId)
                         }
@@ -53,17 +49,27 @@ const Home = (props) => {
         console.log('hit redirect')
         history.push(`${url}/orgs/${id}`);
     };
+    
+    const displayShowPage = (org) => {
+        props.setOrg(org);
+        props.setShowOrg(true)
+    }
+    const displayEditPage = (org) => {
+        props.setOrg(org);
+        props.setEditOrg(true)
+    }
+
 
     const OrgsList = () => {
         return <div className='orgslist' >
             <p>{message}</p>
-            {orgs.map((org) => {
+            {props.orgs.map((org) => {
                 return (
                     <div className='org' key={org.id}>
                         <div className='edit-join'>
-                            <h1>{org.name}</h1>
-                            <a><h4>(edit</h4></a>
-                            <a onClick={e => joinOrg(org.id)} ><h4>join)</h4></a>
+                            <a onClick={() => displayShowPage(org)}><h1>{org.name}</h1></a>
+                            <a onClick={() => displayEditPage(org)}><h4>(edit</h4></a>
+                            <a onClick={() => joinOrg(org.id)} ><h4>join)</h4></a>
                         </div>
                         <h3 >{org.description}</h3>
                     </div>
@@ -74,8 +80,8 @@ const Home = (props) => {
 
     return (
         <div>
-            <h1 onClick={e => console.log(props.user.organizations)}>Welcome to Adnat, {user ? user.name : 'name isnt loading'}</h1>
-            {props.user && props.user.organizations > 0 ? console.log(true) : <NoOrgsMessage />}
+            <h1>Welcome to Adnat, {context.user ? context.user.name : 'name isnt loading'}</h1>
+            {context.userOrgs.length == 0 ? <NoOrgsMessage /> : null}
             <OrgsList />
         </div>
     );

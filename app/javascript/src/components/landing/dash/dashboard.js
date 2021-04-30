@@ -1,20 +1,25 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import { Switch, Route, Link, useRouteMatch, useHistory } from 'react-router-dom';
 import Axios from 'axios'
-import EditOrg from '../dash/edit'
-import Org from './org'
+import EditOrg from './editOrg'
+import ShowOrg from './showOrg'
 import Home from '../dash/home'
 import './dashboard.css'
+import { UserContext } from '../../../userContext';
+
 
 const Dashboard = (props) => {
-    const user = props.user
+    const context = useContext(UserContext)
     const [orgs, setOrgs] = useState([])
+    const [org, setOrg] = useState({})
+    const [showOrg, setShowOrg] = useState(false)
+    const [editOrg, setEditOrg] = useState(false)
+
+
 
     useEffect(() => {
-        console.log(props.user)
         fetchOrgs()
     }, [])
-
 
     const fetchOrgs = () => {
         const token = localStorage.getItem("token")
@@ -23,7 +28,7 @@ const Dashboard = (props) => {
                 Authorization: `Bearer ${token}`
             }
         }).then(resp => {
-            console.log(resp)
+            console.log(`dashboard axios about to setOrgs state with an array.length as ${resp.data.length}`)
             setOrgs(resp.data)
         })
     }
@@ -41,16 +46,21 @@ const Dashboard = (props) => {
     return (
         <>
             <div className='dash-container'>
-
+                {editOrg ? <EditOrg redirect={redirect} org={org} /> : null}
+                {showOrg ? <ShowOrg redirect={redirect} org={org} /> : null}
             </div>
+
             <Switch>
-                <Route exact path={path}
-                    render={props => (
-                        <Home {...props} user={user} orgs={orgs} />
-                    )}
-                ></Route>
-                <Route path={`${path}/editorg/:id`}><EditOrg redirect={redirect} orgs={orgs} /></Route>
-                <Route path={`${path}/orgs/:id`}><Org redirect={redirect} /></Route>
+                <Route exact path={path}>
+                    <Home orgs={orgs}
+                        org={org}
+                        setOrg={setOrg}
+                        setEditOrg={setEditOrg}
+                        setShowOrg={setShowOrg}
+                    /></Route>
+                {/* <Route path={`${path}/editorg/:id`}><EditOrg redirect={redirect}/></Route>
+                    <Route path={`${path}/orgs/:id`}><ShowOrg redirect={redirect} /></Route> */}
+
             </Switch>
         </>
     );
