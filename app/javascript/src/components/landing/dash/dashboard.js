@@ -102,7 +102,7 @@ const Dashboard = (props) => {
                         submitForm={submitEditForm}
                         deleteOrg={deleteOrg}
                     /> : null}
-                    {showOrg ? <ShowOrg redirect={redirect} org={org} /> : null}
+                    {showOrg ? <ShowOrg redirect={redirect} org={org} orgs={orgs} /> : null}
 
                     <Route exact path={path}>
                         <Home orgs={orgs}
