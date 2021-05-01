@@ -1,5 +1,4 @@
 import React, { useContext, useState } from 'react';
-import { Link, useRouteMatch, useHistory } from 'react-router-dom';
 import './home.css'
 import Axios from 'axios'
 import { UserContext} from '../../../userContext';
@@ -9,7 +8,6 @@ const Home = (props) => {
     const [message, setMessage] = useState('')
     const context = useContext(UserContext)
 
-    let { path, url } = useRouteMatch();
 
     // if user has not joined any orgs display this
     const NoOrgsMessage = () => {
@@ -36,7 +34,6 @@ const Home = (props) => {
                         if (resp.data.success) {
                             setUserOrgs(userOrgs.push(resp.data.org))
                             setMessage("you're in!")
-                            redirect(orgId)
                         }
                         else {
                             console.log(resp.data)
@@ -46,11 +43,6 @@ const Home = (props) => {
         }
     }
 
-    let history = useHistory()
-    const redirect = (id) => {
-        console.log('hit redirect')
-        history.push(`${url}/orgs/${id}`);
-    };
     // functions to show and hide the edit/display pages
     const displayShowPage = (org) => {
         props.setOrg(org);
