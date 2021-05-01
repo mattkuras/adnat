@@ -5,10 +5,12 @@ Rails.application.routes.draw do
   resource :users, only: [:create]
   resource :organizations, only: [:create, :update, :destroy]
   resource :jobs, only: [:create]
-  resource :shifts, only: [:create]
+  resource :shifts, only: [:create, :index]
 
   delete '/organizations/:id', to: 'organizations#destroy'
+  delete '/shifts/:id', to: 'shifts#destroy'
   get '/organizations', to: 'organizations#index'
+  get '/shifts', to: 'shifts#index'
   post 'password/forgot', to: 'passwords#forgot'
   patch 'password/reset/:id', to: 'passwords#reset'
   post "/login", to: "sessions#login"

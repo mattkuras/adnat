@@ -2,7 +2,7 @@ class OrganizationsController < ApplicationController
 
     def index 
         organizations = Organization.all 
-        render json: organizations
+        render json: organizations.to_json(include: [:shifts])
     end
     
     def create
@@ -20,7 +20,7 @@ class OrganizationsController < ApplicationController
         if org.save 
             render json: {success: 'ok', organization: org}
         else
-            render json: {error: 'there was an error creating this org'}
+            render json: {error: 'there was an error updating this org'}
         end
     end
 
