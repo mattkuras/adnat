@@ -1,0 +1,7 @@
+.show-div {
+    width: 90%;
+    height: 300px;
+    margin: auto;
+    z-index: 200;
+    border: black solid 1px;
+}

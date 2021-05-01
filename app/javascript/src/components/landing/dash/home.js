@@ -3,7 +3,7 @@ import { Link, useRouteMatch, useHistory } from 'react-router-dom';
 import './home.css'
 import Axios from 'axios'
 import { UserContext} from '../../../userContext';
-
+import NewOrgForm from './newOrgForm'
 
 const Home = (props) => {
     const [message, setMessage] = useState('')
@@ -11,12 +11,14 @@ const Home = (props) => {
 
     let { path, url } = useRouteMatch();
 
+    // if user has not joined any orgs display this
     const NoOrgsMessage = () => {
             return <div>
                 <h3>You're not yet a member of any organizations. Join an existing one or create a new one.</h3>
             </div>
     }
 
+    // function to join orgs and create job object
     const joinOrg = (orgId) => {
         if (props.orgs.find(org => org.id == orgId)) {
             setMessage("you're already a member of that organization")
@@ -49,7 +51,7 @@ const Home = (props) => {
         console.log('hit redirect')
         history.push(`${url}/orgs/${id}`);
     };
-    
+    // functions to show and hide the edit/display pages
     const displayShowPage = (org) => {
         props.setOrg(org);
         props.setShowOrg(true)
@@ -59,7 +61,7 @@ const Home = (props) => {
         props.setEditOrg(true)
     }
 
-
+// display all orgs in db
     const OrgsList = () => {
         return <div className='orgslist' >
             <p>{message}</p>
@@ -82,6 +84,7 @@ const Home = (props) => {
         <div>
             <h1>Welcome to Adnat, {context.user ? context.user.name : 'name isnt loading'}</h1>
             {context.userOrgs.length == 0 ? <NoOrgsMessage /> : null}
+           <NewOrgForm/>
             <OrgsList />
         </div>
     );

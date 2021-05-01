@@ -1,0 +1,6 @@
+.new-org-form {
+    display: flex;
+    flex-direction: column;
+    margin: auto;
+    width: 75%;
+}

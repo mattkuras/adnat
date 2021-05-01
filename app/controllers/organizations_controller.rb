@@ -14,10 +14,29 @@ class OrganizationsController < ApplicationController
         end
     end
 
+    def update
+        org = Organization.find_by(id: organization_params[:id])
+        org.update(organization_params)
+        if org.save 
+            render json: {success: 'ok', organization: org}
+        else
+            render json: {error: 'there was an error creating this org'}
+        end
+    end
+
+    def destroy
+        org = Organization.find_by(id: params[:id])
+        if org.jobs.destroy_all && org.destroy 
+            render json: {success: 'ok', message: ''}
+        else
+            render json: {error: 'there was an error destroying this org'}
+        end
+    end
+
     private
 
     def organization_params
-        params.require(:organization).permit(:name, :description, :hourly_rate)
+        params.require(:organization).permit(:name, :description, :hourly_rate, :id)
     end
 
 end 

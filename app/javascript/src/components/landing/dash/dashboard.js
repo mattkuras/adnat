@@ -17,6 +17,7 @@ const Dashboard = (props) => {
 
 
 
+
     useEffect(() => {
         fetchOrgs()
     }, [])
@@ -39,28 +40,80 @@ const Dashboard = (props) => {
         history.push("/dashboard");
     };
 
-
     let { path, url } = useRouteMatch();
 
+    const handleEditFormUpdate = (e) => {
+        setOrg({
+            ...org,
+            [e.target.name]: e.target.value
+        });
+    }
+
+    const submitEditForm = (e) => {
+        e.preventDefault();
+        let organization = {
+            name: org.name,
+            description: org.description,
+            id: org.id,
+            hourly_rate: org.hourly_rate
+        };
+        Axios.patch("/organizations", { organization })
+            .then(resp => {
+                if (resp.data.success) {
+                    console.log('success')
+                    setEditOrg(false)
+                    fetchOrgs()
+                }
+                else {
+                    console.log(resp.data)
+                }
+
+            })
+    }
+
+    const deleteOrg = (e) => {
+        e.preventDefault();
+        let organization = {
+            id: org.id,
+        };
+        Axios.delete(`/organizations/${org.id}`, { organization })
+            .then(resp => {
+                if (resp.data.success) {
+                    console.log('success')
+                    setEditOrg(false)
+                    fetchOrgs()
+                }
+                else {
+                    console.log(resp.data)
+                }
+
+            })
+    }
+
+    
 
     return (
         <>
-            <div className='dash-container'>
-                {editOrg ? <EditOrg redirect={redirect} org={org} /> : null}
-                {showOrg ? <ShowOrg redirect={redirect} org={org} /> : null}
-            </div>
-
             <Switch>
-                <Route exact path={path}>
-                    <Home orgs={orgs}
+                <div className='dash-container'>
+                    {editOrg ? <EditOrg redirect={redirect}
                         org={org}
-                        setOrg={setOrg}
-                        setEditOrg={setEditOrg}
-                        setShowOrg={setShowOrg}
-                    /></Route>
-                {/* <Route path={`${path}/editorg/:id`}><EditOrg redirect={redirect}/></Route>
-                    <Route path={`${path}/orgs/:id`}><ShowOrg redirect={redirect} /></Route> */}
+                        updateForm={handleEditFormUpdate}
+                        submitForm={submitEditForm}
+                        deleteOrg={deleteOrg}
+                    /> : null}
+                    {showOrg ? <ShowOrg redirect={redirect} org={org} /> : null}
 
+                    <Route exact path={path}>
+                        <Home orgs={orgs}
+                            org={org}
+                            setOrg={setOrg}
+                            setEditOrg={setEditOrg}
+                            setShowOrg={setShowOrg}
+                        /></Route>
+                    {/* <Route path={`${path}/editorg/:id`}><EditOrg redirect={redirect}/></Route>
+                    <Route path={`${path}/orgs/:id`}><ShowOrg redirect={redirect} /></Route> */}
+                </div>
             </Switch>
         </>
     );
