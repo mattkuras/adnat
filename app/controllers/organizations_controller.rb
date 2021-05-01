@@ -2,7 +2,8 @@ class OrganizationsController < ApplicationController
 
     def index 
         organizations = Organization.all 
-        render json: organizations.to_json(include: [:shifts, :users])
+        render json: organizations
+        # render json: organizations.to_json(include: [:shifts, :users])
     end
     
     def create

@@ -11,7 +11,7 @@ class ShiftsController < ApplicationController
 
   def index
     shifts = Shift.all 
-    render json: {shifts: shifts}
+    render json: shifts
   end
 
   def update

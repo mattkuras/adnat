@@ -14,9 +14,9 @@ const ShowOrg = (props) => {
          {props.org.shifts.map((s) => {
             return (
                <div key={s.id} className='shift-table-row'>
-                  <div className='col-1'>{findUserName(s.user_id) }</div>
-                  <div className='col-2'>{s.start_time}</div>
-                  <div className='col-3'>{s.end_time}</div>
+                  <div className='col-1'>{s.employee}</div>
+                  <div className='col-2'>{s.start}</div>
+                  <div className='col-3'>{s.end}</div>
                   <div className='col-3'>{s.break_length}</div>
                   <div className='col-3'>{'hours worked'}</div>
                   <div className='col-3'>{'shift cost'}</div>
