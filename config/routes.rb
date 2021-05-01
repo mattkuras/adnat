@@ -1,9 +1,11 @@
 Rails.application.routes.draw do
+
   root 'home#index'
 
   resource :users, only: [:create]
   resource :organizations, only: [:create, :update, :destroy]
   resource :jobs, only: [:create]
+  resource :shifts, only: [:create]
 
   delete '/organizations/:id', to: 'organizations#destroy'
   get '/organizations', to: 'organizations#index'
