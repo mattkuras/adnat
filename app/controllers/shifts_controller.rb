@@ -4,7 +4,7 @@ class ShiftsController < ApplicationController
     shift = Shift.new(shift_params)
     shift.set_breaks(shift_params[:break_length])
     if shift.save 
-      render json: {shift: shift}
+      render json: {shift: shift, success: 'ok'}
     else 
       render json: {error: 'shift couldnt be created'}
     end
