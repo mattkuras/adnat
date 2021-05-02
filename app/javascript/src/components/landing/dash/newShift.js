@@ -28,7 +28,11 @@ const NewShift = (props) => {
         }
 
         Axios.post("/shifts", shift)
-        .then(resp => console.log(resp))
+        .then(resp => {
+            if (resp.data.success == 'ok'){
+                
+            }
+        })
         setState({shift_date: '',
         start_time: '',
         end_time: '',
