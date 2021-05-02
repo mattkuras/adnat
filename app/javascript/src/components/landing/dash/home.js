@@ -56,9 +56,11 @@ const Home = (props) => {
 // display all orgs in db
     const OrgsList = () => {
         return <div className='orgslist' >
+            <h1>Organiztions</h1>
             <p>{message}</p>
             {props.orgs.map((org) => {
                 return (
+                    
                     <div className='org' key={org.id}>
                         <div className='edit-join'>
                             <a onClick={() => displayShowPage(org)}><h1>{org.name}</h1></a>

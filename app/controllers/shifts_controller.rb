@@ -1,7 +1,8 @@
 class ShiftsController < ApplicationController
   def create
+    byebug
     shift = Shift.new(shift_params)
-    shift.break_length << shift_params[:break_length].to_i
+    shift.set_breaks(shift_params[:break_length])
     if shift.save 
       render json: {shift: shift}
     else 

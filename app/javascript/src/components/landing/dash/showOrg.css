@@ -1,7 +1,37 @@
 .show-div {
-    width: 90%;
-    height: 300px;
+    width: 60%;
+    height: 60%;
     margin: auto;
     z-index: 200;
     border: black solid 1px;
+}
+
+.shift-table {
+    display: flex; 
+    flex-direction: column;
+}
+
+.shift-table-row {
+    display: flex;
+    border: black solid .5px
+}
+
+.shift-table-row div {
+    border-right: black solid .5px;
+    width: 15%;
+}
+.show-div span {
+    display: inline;
+}
+
+.shift-table-row .col-8 {
+    width: 30%;
+}
+
+.with-form {
+    margin: 10px auto;
+}
+.col-8 button {
+    width: 100%;
+     height: 100%;
 }

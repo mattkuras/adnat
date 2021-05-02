@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import './editOrg.css'
+import {AiOutlineClose} from 'react-icons/ai'
 
 const EditOrg = (props) => {
     const [name, setName] = useState('')
@@ -13,6 +14,7 @@ const EditOrg = (props) => {
 
     return (
         <div className='edit-div'>
+            <span onClick={() => props.setEditOrg(false)}><AiOutlineClose/></span>
             <form onSubmit={props.submitForm}>
                 <input type='text'
                     name='name'

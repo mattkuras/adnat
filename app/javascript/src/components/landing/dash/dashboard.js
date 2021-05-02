@@ -96,13 +96,13 @@ const Dashboard = (props) => {
         <>
             <Switch>
                 <div className='dash-container'>
-                    {editOrg ? <EditOrg redirect={redirect}
+                    {editOrg ? <EditOrg setEditOrg={setEditOrg}
                         org={org}
                         updateForm={handleEditFormUpdate}
                         submitForm={submitEditForm}
                         deleteOrg={deleteOrg}
                     /> : null}
-                    {showOrg ? <ShowOrg redirect={redirect} org={org} orgs={orgs} /> : null}
+                    {showOrg ? <ShowOrg setShowOrg={setShowOrg} org={org} orgs={orgs} /> : null}
 
                     <Route exact path={path}>
                         <Home orgs={orgs}

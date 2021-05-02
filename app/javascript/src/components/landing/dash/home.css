@@ -5,3 +5,13 @@
 .edit-join h4 {
     margin-left: 30px;
 }
+
+.org {
+    border: black solid 1px;
+    margin-left: 50px;
+    margin-bottom: 35px;
+}
+
+.orgslist h1 {
+    margin: 35px auto 15px 50px;
+}

@@ -3,4 +3,18 @@
     flex-direction: column;
     margin: auto;
     width: 75%;
+    border: black solid 1px;
+    align-items: center;
+}
+
+.new-org-form input {
+    width: 75%;
+}
+.new-org-form textarea {
+    width: 75%;
+    height: 40%;
+}
+
+.submit-button {
+    margin-bottom: 25px;
 }
