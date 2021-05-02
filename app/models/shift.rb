@@ -41,14 +41,15 @@ class Shift < ApplicationRecord
         self.break_length = clearn_up_sting_to_i
     end
 
-    # def breaks 
-    #     if self.break_length.length == 1 
-    #       return  self.break_length.to_s
-    #     else 
-    #       x = ''
-    #       self.break_length.map{|i| x << i.to_s + ', ' }
-    #       return x
-    #     end
-    # end
+    def breaks 
+        if self.break_length.length == 1 
+          return  self.break_length.to_s
+        else 
+          x = ''
+          self.break_length.map{|i| x << i.to_s + ', ' }
+           2.times {x.chop!}
+           return x
+        end
+    end
 
 end

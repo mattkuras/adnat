@@ -21,11 +21,12 @@ class ShiftSerializer < ActiveModel::Serializer
 
   def breaks 
     if object.break_length.length == 1 
-      return  object.break_length.to_s
+      return  object.break_length[0].to_s
     else 
       x = ''
-      object.break_length.map{|i| x << i.to_s + ', '}
-      return x
+      object.break_length.map{|i| x << i.to_s + ', ' }
+       2.times {x.chop!}
+       return x
     end
   end
 
