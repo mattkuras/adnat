@@ -41,6 +41,21 @@ class Shift < ApplicationRecord
         self.break_length = clearn_up_sting_to_i
     end
 
+    def set_date(date, time, start_or_end = nil)
+        date = date.split(',').map{|e| e.to_i}
+        time = time.split(',').map{|e| e.to_i}
+        x = DateTime.new(date[0], date[1], date[2], time[0], time[1])
+        start_or_end == 'start' ? self.start_time = x : self.end_time = x  
+    end
+
+    def set_time_and_breaks(date, s_time, start, e_time, string)
+        set_date(date, s_time, start)
+        set_date(date, e_time)
+        set_breaks(string)
+        self
+    end
+
+
     def breaks 
         if self.break_length.length == 1 
           return  self.break_length.to_s

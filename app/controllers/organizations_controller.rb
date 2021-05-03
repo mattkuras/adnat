@@ -9,7 +9,7 @@ class OrganizationsController < ApplicationController
     def create
         organization = Organization.new(organization_params)
         if organization.save 
-            render json: {organization: organization}
+            render json: {success: 'success', organization: organization}
         else
             render json: {error: 'there was an error creating this org'}
         end

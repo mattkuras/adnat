@@ -32,7 +32,7 @@ const EditOrg = (props) => {
                     value={props.org.hourly_rate}
                     onChange={props.updateForm} />
                 <input type='submit' className='submit-button' />
-                <button value='delete' className='delete-button' onClick={props.deleteOrg} />
+                <button className='delete-button' onClick={props.deleteOrg}>delete</button> 
 
             </form>
         </div>

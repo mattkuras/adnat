@@ -26,18 +26,26 @@ const NewShift = (props) => {
             user_id: context.user.id,
             organization_id: props.org.id
         }
-
-        Axios.post("/shifts", shift)
-        .then(resp => {
-            if (resp.data.success == 'ok'){
-                
-            }
+        let date = {shift_date:state.shift_date}
+        Axios.post("/shifts", {shift, date})
+            .then(resp => {
+                if (resp.data.success == 'ok') {
+                    console.log(props.orgs)
+                    console.log(resp.data)
+                    props.setOrgs(resp.data.orgs)
+                }
+                else {
+                    console.log(resp.data.error)
+                }
+            })
+        setState({
+            shift_date: '',
+            start_time: '',
+            end_time: '',
+            break_length: ''
         })
-        setState({shift_date: '',
-        start_time: '',
-        end_time: '',
-        break_length: ''})
     }
+
 
     return (
         <div className='shift-table-row with-form'>

@@ -11,7 +11,7 @@ import { UserContext } from '../../../userContext';
 const Dashboard = (props) => {
     const context = useContext(UserContext)
     const [orgs, setOrgs] = useState([])
-    const [org, setOrg] = useState({})
+    const [orgToShowOrEdit, setOrg] = useState({})
     const [showOrg, setShowOrg] = useState(false)
     const [editOrg, setEditOrg] = useState(false)
 
@@ -44,7 +44,7 @@ const Dashboard = (props) => {
 
     const handleEditFormUpdate = (e) => {
         setOrg({
-            ...org,
+            ...orgToShowOrEdit,
             [e.target.name]: e.target.value
         });
     }
@@ -52,10 +52,10 @@ const Dashboard = (props) => {
     const submitEditForm = (e) => {
         e.preventDefault();
         let organization = {
-            name: org.name,
-            description: org.description,
-            id: org.id,
-            hourly_rate: org.hourly_rate
+            name: orgToShowOrEdit.name,
+            description: orgToShowOrEdit.description,
+            id: orgToShowOrEdit.id,
+            hourly_rate: orgToShowOrEdit.hourly_rate
         };
         Axios.patch("/organizations", { organization })
             .then(resp => {
@@ -90,23 +90,23 @@ const Dashboard = (props) => {
             })
     }
 
-    
+
 
     return (
         <>
             <Switch>
                 <div className='dash-container'>
                     {editOrg ? <EditOrg setEditOrg={setEditOrg}
-                        org={org}
+                        org={orgToShowOrEdit}
                         updateForm={handleEditFormUpdate}
                         submitForm={submitEditForm}
                         deleteOrg={deleteOrg}
                     /> : null}
-                    {showOrg ? <ShowOrg setShowOrg={setShowOrg} org={org} orgs={orgs} /> : null}
+                    {showOrg ? <ShowOrg setShowOrg={setShowOrg} org={orgToShowOrEdit} setOrgs={setOrgs} orgs={orgs} /> : null}
 
                     <Route exact path={path}>
                         <Home orgs={orgs}
-                            org={org}
+                            setOrgs={setOrgs}
                             setOrg={setOrg}
                             setEditOrg={setEditOrg}
                             setShowOrg={setShowOrg}

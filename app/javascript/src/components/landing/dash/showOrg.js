@@ -34,7 +34,7 @@ const ShowOrg = (props) => {
                </div>
             )
          })}
-        <NewShift org={props.org}/>
+        <NewShift orgs={props.orgs} org={props.org} setOrgs={props.setOrgs}/>
       </div>
    }
 

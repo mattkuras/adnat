@@ -1,10 +1,10 @@
 class ShiftsController < ApplicationController
   def create
-    byebug
     shift = Shift.new(shift_params)
-    shift.set_breaks(shift_params[:break_length])
+    shift.set_time_and_breaks( params[:date][:shift_date], shift_params[:start_time], 'start', shift_params[:end_time], shift_params[:break_length])
     if shift.save 
-      render json: {shift: shift, success: 'ok'}
+      orgs= Organization.all
+      render json: {orgs: orgs, success: 'ok'}
     else 
       render json: {error: 'shift couldnt be created'}
     end

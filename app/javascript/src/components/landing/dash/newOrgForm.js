@@ -11,7 +11,15 @@ const NewOrgForm = (props) => {
     const createOrg = () => {
         let organization = { name, description, hourly_rate: hourlyRate }
         Axios.post('/organizations', organization)
-            .then(resp => console.log(resp))
+            .then(resp => {
+                if (resp.data.success) {
+                    console.log(resp)
+                    props.setOrgs(...prevOrgs, resp.data.organization)
+                }
+                else {
+                    console.log(resp.data)
+                }
+            })
     }
 
     return (
