@@ -1,9 +1,7 @@
 import React, { useEffect, useState, useContext } from 'react';
-import { UserContext } from '../../../userContext';
 import './showOrg.css'
 import { AiOutlineClose } from 'react-icons/ai'
 import NewShift from './newShift'
-import NewOrgForm from './newOrgForm';
 
 const ShowOrg = (props) => {
 
