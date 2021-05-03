@@ -11,14 +11,14 @@ class Shift < ApplicationRecord
     end
 
     def hours_worked
-        x = ((self.end_time - self.start_time) / 3600).to_i
-        x > 0 ? x.to_f : (24 + x).to_f
+        x = ((self.end_time - self.start_time) / 3600)
+        x > 0 ? x.round(2) : (24 + x).round(2)
     end
     
     def shift_cost 
         new_end_time = end_time - breaks_to_hours.hours
         sun_hours = sunday_hours(new_end_time)
-        hours = ((new_end_time - self.start_time) / 3600).to_i
+        hours = ((new_end_time - self.start_time) / 3600)
         hours >= 0 ? x = hours.to_f : x = (24 + hours).to_f
         not_sunday_hours = x - sun_hours
         x = (not_sunday_hours * organization.hourly_rate) + (sun_hours * 2 * organization.hourly_rate)
@@ -26,12 +26,15 @@ class Shift < ApplicationRecord
     end
 
     def sunday_hours(e_time)
+        total_time = e_time.strftime("%H:%M")
+        hours = (total_time.split(':')[0].to_i)
+        mins = (total_time.split(':')[1].to_i)
         if start_time.sunday? == false && e_time.sunday? == false 
             0
         elsif start_time.sunday? == true && e_time.sunday? == false 
-            '%.2f' % (24 - start_time.hour)
+            ((hours * 60) + mins) / 60.0
         elsif start_time.sunday? == false && e_time.sunday? == true 
-            e_time.hour
+            ((hours * 60) + mins) / 60.0
         elsif start_time.sunday? == true && e_time.sunday? == true 
             x = ((e_time - self.start_time) / 3600).to_i
             x > 0 ? x.to_f : (24 + x).to_f
@@ -73,6 +76,9 @@ class Shift < ApplicationRecord
     def set_time_and_breaks(date, s_time, start, e_time, string)
         set_date(date, s_time, start)
         set_date(date, e_time)
+        if overnight == 'yes'
+            self.end_time = end_time + 1.day 
+        end
         set_breaks(string)
         self
     end
