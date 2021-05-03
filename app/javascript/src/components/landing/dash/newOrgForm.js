@@ -14,7 +14,7 @@ const NewOrgForm = (props) => {
             .then(resp => {
                 if (resp.data.success) {
                     console.log(resp)
-                    props.setOrgs(...prevOrgs, resp.data.organization)
+                    props.setOrgs(prevOrgs => [...prevOrgs, resp.data.organization])
                 }
                 else {
                     console.log(resp.data)

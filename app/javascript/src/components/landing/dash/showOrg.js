@@ -34,16 +34,16 @@ const ShowOrg = (props) => {
                </div>
             )
          })}
-         <NewShift orgs={props.orgs} org={props.org} setOrgs={props.setOrgs} />
+         <NewShift setOrg={props.setOrg} orgs={props.orgs} org={props.org} setOrgs={props.setOrgs} />
       </div>
    }
 
    return (
       <div className='show-div'>
          <span onClick={() => props.setShowOrg(false)}><AiOutlineClose className="close-icon" /></span>
-         <h2>{props.org.name}</h2>
-         <h4>hourly rate: ${props.org.hourly_rate}</h4>
+         <h1>{props.org.name}</h1>
          <h3>{props.org.description}</h3>
+         <h3>hourly rate: ${props.org.hourly_rate}</h3>
          {showTable ? <ShiftsTable /> : <h4 onClick={() => { setShowTable(true) }}>Show Shifts</h4>}
       </div>
    );

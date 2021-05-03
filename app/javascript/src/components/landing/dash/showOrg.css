@@ -1,7 +1,8 @@
+@import url('https://fonts.googleapis.com/css2?family=Varela+Round&display=swap');
 
 .show-div {
-    width: 550px;
-    height: 60%;
+    width: 700px;
+    height: auto;
     margin: auto;
     z-index: 200;
     border: black solid 1px;
@@ -10,6 +11,7 @@
     top: 25%;
     right: 25%;
     background: white;
+    font-family: 'Varela Round', sans-serif;
   }
   
   .close-icon:hover {
@@ -54,4 +56,11 @@
     width: 100%;
     height: 100%;
   }
-  
+  .show-div h4 {
+    cursor: pointer;
+  }
+
+    
+  .show-div h4:hover {
+    color: #2e76cf;
+  }

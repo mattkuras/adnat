@@ -20,21 +20,29 @@ const Home = (props) => {
     const joinOrLeaveOrg = (orgId, status) => {
         const token = localStorage.getItem("token")
         if (token) {
-            let job = { user_id: user.id, organization_id: orgId }
+            let job = { user_id: context.user.id, organization_id: orgId }
             let url;
-            status == 'join' ? url = 'jobs' : 'leave_org'
+            status == 'join' ? url = 'jobs' : url = 'leave_org'
             Axios.post(`/${url}`, { job }, {
                 headers: {
                     Authorization: `Bearer ${token}`
                 }
             })
                 .then(resp => {
+                    console.log(resp.data)
                     if (resp.data.success == 'joined') {
-                        setUserOrgs(userOrgs.push(resp.data.org))
+                        context.setUserOrgs(prevOrgs => [...prevOrgs, resp.data.org])
                         setMessage("you're in!")
                     }
                     else if (resp.data.success == 'left') {
-                        
+                        console.log(context.userOrgs)
+                        let newOrgsList = context.userOrgs.filter(o => o.id != resp.data.id)
+                        console.log(newOrgsList)
+                        context.setUserOrgs(newOrgsList)
+
+                    }
+                    else {
+                        console.log(resp.data)
                     }
                 })
         }
@@ -56,12 +64,14 @@ const Home = (props) => {
             <h1>Organiztions</h1>
             <p>{message}</p>
             {props.orgs.map((org) => {
+                let status;
+                context.userOrgs.find(o => o.id == org.id) ? status = 'leave' : status = 'join'
                 return (
                     <div className='org' key={org.id}>
                         <div className='edit-join'>
                             <a className='org-edit' onClick={() => displayShowPage(org)}>{org.name}</a>
                             <a className='org-edit' onClick={() => displayEditPage(org)}>(edit</a>
-                            <a className='org-edit' onClick={() => joinOrg(org.id, status)} >{context.userOrgs.find(o => o.id == org.id) ? 'leave)' : 'join)'}</a>
+                            <a className='org-edit' onClick={() => joinOrLeaveOrg(org.id, status)} >{status})</a>
                         </div>
                         <h3 >{org.description}</h3>
                     </div>

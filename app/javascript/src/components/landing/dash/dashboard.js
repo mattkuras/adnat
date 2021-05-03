@@ -35,11 +35,6 @@ const Dashboard = (props) => {
     }
 
 
-    let history = useHistory()
-    const redirect = () => {
-        history.push("/dashboard");
-    };
-
     let { path, url } = useRouteMatch();
 
     const handleEditFormUpdate = (e) => {
@@ -102,7 +97,7 @@ const Dashboard = (props) => {
                         submitForm={submitEditForm}
                         deleteOrg={deleteOrg}
                     /> : null}
-                    {showOrg ? <ShowOrg setShowOrg={setShowOrg} org={orgToShowOrEdit} setOrgs={setOrgs} orgs={orgs} /> : null}
+                    {showOrg ? <ShowOrg setShowOrg={setShowOrg} setOrg={setOrg} org={orgToShowOrEdit} setOrgs={setOrgs} orgs={orgs} /> : null}
 
                     <Route exact path={path}>
                         <Home orgs={orgs}

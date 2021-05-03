@@ -30,9 +30,8 @@ const NewShift = (props) => {
         Axios.post("/shifts", {shift, date})
             .then(resp => {
                 if (resp.data.success == 'ok') {
-                    console.log(props.orgs)
-                    console.log(resp.data)
-                    props.setOrgs(resp.data.orgs)
+                   console.log(resp.data.org)
+                   props.setOrg(resp.data.org)
                 }
                 else {
                     console.log(resp.data.error)
