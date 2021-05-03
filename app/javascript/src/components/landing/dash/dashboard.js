@@ -14,12 +14,14 @@ const Dashboard = (props) => {
     const [orgToShowOrEdit, setOrg] = useState({})
     const [showOrg, setShowOrg] = useState(false)
     const [editOrg, setEditOrg] = useState(false)
+    const [openShifts, setOpenShifts] = useState()
 
 
 
 
     useEffect(() => {
         fetchOrgs()
+        fetchOpenShifts()
     }, [])
 
     const fetchOrgs = () => {
@@ -29,8 +31,26 @@ const Dashboard = (props) => {
                 Authorization: `Bearer ${token}`
             }
         }).then(resp => {
-            console.log(`dashboard axios about to setOrgs state with an array.length as ${resp.data.length}`)
+            console.log(resp.data)
             setOrgs(resp.data)
+            console.log(orgs)
+        })
+    }
+    const fetchOpenShifts = () => {
+        const token = localStorage.getItem("token")
+        Axios.get('/openshifts', {
+            headers: {
+                Authorization: `Bearer ${token}`
+            }
+        }).then(resp => {
+            if (resp.data.success){
+                console.log(resp.data.shifts)
+            setOpenShifts(resp.data.shifts)
+            console.log(openShifts)
+            }
+            else {
+                console.log(resp.data.error)
+            }
         })
     }
 
@@ -52,7 +72,12 @@ const Dashboard = (props) => {
             id: orgToShowOrEdit.id,
             hourly_rate: orgToShowOrEdit.hourly_rate
         };
-        Axios.patch("/organizations", { organization })
+        const token = localStorage.getItem("token")
+        Axios.patch("/organizations", { organization }, {
+            headers: {
+                Authorization: `Bearer ${token}`
+            }
+        })
             .then(resp => {
                 if (resp.data.success) {
                     console.log('success')
@@ -71,7 +96,12 @@ const Dashboard = (props) => {
         let organization = {
             id: org.id,
         };
-        Axios.delete(`/organizations/${org.id}`, { organization })
+        const token = localStorage.getItem("token")
+        Axios.delete(`/organizations/${org.id}`, { organization }, {
+            headers: {
+                Authorization: `Bearer ${token}`
+            }
+        })
             .then(resp => {
                 if (resp.data.success) {
                     console.log('success')
@@ -97,7 +127,7 @@ const Dashboard = (props) => {
                         submitForm={submitEditForm}
                         deleteOrg={deleteOrg}
                     /> : null}
-                    {showOrg ? <ShowOrg setShowOrg={setShowOrg} setOrg={setOrg} org={orgToShowOrEdit} setOrgs={setOrgs} orgs={orgs} /> : null}
+                    {showOrg ? <ShowOrg openShifts={openShifts} setShowOrg={setShowOrg} setOrg={setOrg} org={orgToShowOrEdit} setOrgs={setOrgs} orgs={orgs} /> : null}
 
                     <Route exact path={path}>
                         <Home orgs={orgs}

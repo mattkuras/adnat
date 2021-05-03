@@ -1,4 +1,6 @@
 class JobsController < ApplicationController
+  before_action :require_user_login
+
     def create
         job = Job.new(job_params)
         if job.save 

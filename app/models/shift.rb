@@ -95,7 +95,11 @@ class Shift < ApplicationRecord
         end
     end
 
- 
+
+    def store 
+        shift = {organization_id: organization_id, user_id: nil, start_time: start_time, end_time: end_time, break_length: break_length}
+        StoredShift.new(shift)
+    end
 
 
 end

@@ -8,7 +8,6 @@
     border: black solid 1px;
     padding: 10px;
     position: fixed; 
-    top: 25%;
     right: 25%;
     background: white;
     font-family: 'Varela Round', sans-serif;
@@ -35,6 +34,10 @@
   .shift-table-row {
     display: flex;
     border: black solid 0.5px;
+    cursor: pointer;
+  }
+  .shift-table-row:hover {
+    color: #2e76cf;
   }
   
   .shift-table-row div {
@@ -64,3 +67,32 @@
   .show-div h4:hover {
     color: #2e76cf;
   }
+
+  .confirm {
+    width: 400px;
+    height: 300px;
+    z-index: 300;
+    border: black solid 1px;
+    padding: 10px;
+    position: fixed; 
+    top: 25%;
+    right: 25%;
+    background: white;
+    font-family: 'Varela Round', sans-serif;
+  }
+  .confirm h1 {
+    text-align: center;
+  }
+  .confirm div h2 {
+    text-align: center;
+    cursor: pointer;
+  }
+  .confirm div h2:hover {
+    color: #2e76cf;
+  }
+.hide-table {
+  cursor: pointer;
+}
+.hide-table:hover {
+  color: #2e76cf;
+}

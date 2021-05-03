@@ -9,8 +9,13 @@ const NewOrgForm = (props) => {
     const [hourlyRate, setHourlyRate] = useState('')
 
     const createOrg = () => {
+        const token = localStorage.getItem("token")
         let organization = { name, description, hourly_rate: hourlyRate }
-        Axios.post('/organizations', organization)
+        Axios.post('/organizations', organization, {
+            headers: {
+                Authorization: `Bearer ${token}`
+            }
+        })
             .then(resp => {
                 if (resp.data.success) {
                     console.log(resp)

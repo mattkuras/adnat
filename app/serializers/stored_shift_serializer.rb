@@ -1,14 +1,11 @@
-class ShiftSerializer < ActiveModel::Serializer
-  attributes :id, :start, :end, :employee, :hours_worked, :date, :shift_cost, :breaks, :overnight, :user_id
-  belongs_to :user
+class StoredShiftSerializer < ActiveModel::Serializer
+  attributes :id, :start, :end, :hours_worked, :date, :shift_cost, :breaks, :overnight, :organization_id
 
   def start
     object.start_time.strftime("%-l:%M%P") 
   end
 
-  def employee
-    object.user.name
-  end
+
 
   def date 
     object.end_time.strftime("%m/%d/%Y")
@@ -29,5 +26,4 @@ class ShiftSerializer < ActiveModel::Serializer
        return x
     end
   end
-
 end

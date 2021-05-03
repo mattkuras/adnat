@@ -1,4 +1,6 @@
 class OrganizationsController < ApplicationController
+  before_action :require_user_login
+
 
     def index 
         organizations = Organization.all 

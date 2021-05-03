@@ -27,7 +27,12 @@ const NewShift = (props) => {
             organization_id: props.org.id
         }
         let date = {shift_date:state.shift_date}
-        Axios.post("/shifts", {shift, date})
+        const token = localStorage.getItem("token")
+        Axios.post("/shifts", {shift, date}, {
+            headers: {
+                Authorization: `Bearer ${token}`
+            }
+        })
             .then(resp => {
                 if (resp.data.success == 'ok') {
                    console.log(resp.data.org)

@@ -9,7 +9,9 @@ Rails.application.routes.draw do
 
   post '/leave_org', to: 'jobs#leave'
   delete '/organizations/:id', to: 'organizations#destroy'
-  delete '/shifts/:id', to: 'shifts#destroy'
+  post '/shifts/store', to: 'shifts#store'
+  post '/shifts/pickup', to: 'shifts#pickup'
+  get '/openshifts', to: 'shifts#open_shifts'
   get '/organizations', to: 'organizations#index'
   get '/shifts', to: 'shifts#index'
   get '/users', to: 'users#index'
