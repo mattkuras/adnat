@@ -2,6 +2,8 @@ class Shift < ApplicationRecord
     belongs_to :user
     belongs_to :organization
 
+    validates :start_time, :end_time, :break_length, :organization_id, :user_id, presence: true
+
     def start
         self.start_time.strftime("%-l:%M%P") 
     end

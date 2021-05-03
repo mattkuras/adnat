@@ -60,7 +60,6 @@ class ShiftsController < ApplicationController
   def pickup
     shift = Shift.find_by(id: shift_params[:id])
     # shift = StoredShift.all.where(id: shift_params[:id]).first
-    byebug
     pickedup_shift = shift.pickup(shift_params[:user_id])
     if pickedup_shift.save
       render json: {success: 'ok', shifts: open_shifts}

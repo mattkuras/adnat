@@ -60,7 +60,7 @@ function App() {
         <Route path='/signup'><Signup handleLogin={handleLogin} /></Route>
         <Route path='/dashboard'>
           <Dashboard handleLogout={handleLogout} />
-          {/* {loggedIn ? null : <Redirect to="/login" />} */}
+          {loggedIn ? null : <Redirect to="/login" />}
         </Route>
       </UserContext.Provider >
     </Router>
