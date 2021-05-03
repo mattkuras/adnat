@@ -59,9 +59,9 @@ const Home = (props) => {
                 return (
                     <div className='org' key={org.id}>
                         <div className='edit-join'>
-                            <a onClick={() => displayShowPage(org)}><h1>{org.name}</h1></a>
-                            <a onClick={() => displayEditPage(org)}><h4>(edit</h4></a>
-                            <a onClick={() => joinOrg(org.id, status)} ><h4>{context.userOrgs.find(o => o.id == org.id) ? 'leave)' : 'join)'}</h4></a>
+                            <a className='org-edit' onClick={() => displayShowPage(org)}>{org.name}</a>
+                            <a className='org-edit' onClick={() => displayEditPage(org)}>(edit</a>
+                            <a className='org-edit' onClick={() => joinOrg(org.id, status)} >{context.userOrgs.find(o => o.id == org.id) ? 'leave)' : 'join)'}</a>
                         </div>
                         <h3 >{org.description}</h3>
                     </div>

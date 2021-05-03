@@ -24,7 +24,7 @@ const NewOrgForm = (props) => {
 
     return (
         <form className='new-org-form' onSubmit={createOrg}>
-            <h2>create a new organization</h2>
+            <h2>Create a New Organization</h2>
             <input type='text'
                 placeholder='name'
                 className='org-input'

@@ -72,10 +72,10 @@ const Login = (props) => {
         <div>
             <div className='login-container'>
                 <form className="login-form" onSubmit={handleSubmit}>
-                    <div className="input-contain">
+                    <div className="input-container">
                         <label for="username">Email: </label>
                         <input
-                            className="user-input"
+                            className="input"
                             type="text"
                             placeholder="Enter Email"
                             id="email"
@@ -83,10 +83,10 @@ const Login = (props) => {
                             onChange={(e) => setEmail(e.target.value)}
                         />
                     </div>
-                    <div className="input-contain">
+                    <div className="input-container">
                         <label for="password">Password: </label>
                         <input
-                            className="user-input"
+                            className="input"
                             type="password"
                             placeholder="Enter Password"
                             id="password"
@@ -94,12 +94,12 @@ const Login = (props) => {
                             onChange={(e) => setPassword(e.target.value)}
                         />
                     </div>
-                    <input className='button' type="submit" />
+                    <input  type="submit"  className='signup-button'/>
                 </form>
                 {forgotPassword ? <div className="forgot-password-div">
                     <label for="username">Enter you email </label>
                     <input
-                        className="user-input"
+                        className="input"
                         type="text"
                         placeholder="Enter Email"
                         value={forgotPasswordEmail}

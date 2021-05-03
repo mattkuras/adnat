@@ -1,7 +1,7 @@
 import React, { useEffect, useState, useContext } from 'react';
 import { UserContext } from '../../../userContext';
 import './showOrg.css'
-import {AiOutlineClose} from 'react-icons/ai'
+import { AiOutlineClose } from 'react-icons/ai'
 import NewShift from './newShift'
 import NewOrgForm from './newOrgForm';
 
@@ -34,17 +34,17 @@ const ShowOrg = (props) => {
                </div>
             )
          })}
-        <NewShift orgs={props.orgs} org={props.org} setOrgs={props.setOrgs}/>
+         <NewShift orgs={props.orgs} org={props.org} setOrgs={props.setOrgs} />
       </div>
    }
 
    return (
       <div className='show-div'>
+         <span onClick={() => props.setShowOrg(false)}><AiOutlineClose className="close-icon" /></span>
          <h2>{props.org.name}</h2>
-         <span onClick={() => props.setShowOrg(false)}><AiOutlineClose/></span>
          <h4>hourly rate: ${props.org.hourly_rate}</h4>
          <h3>{props.org.description}</h3>
-         {showTable ? <ShiftsTable /> : <h4 onClick={() => {setShowTable(true)}}>Show Shifts</h4>}
+         {showTable ? <ShiftsTable /> : <h4 onClick={() => { setShowTable(true) }}>Show Shifts</h4>}
       </div>
    );
 }
