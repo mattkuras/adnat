@@ -5,7 +5,7 @@ Rails.application.routes.draw do
   resource :users, only: [:create, :index]
   resource :organizations, only: [:create, :update, :destroy]
   resource :jobs, only: [:create]
-  resource :shifts, only: [:create, :index]
+  resource :shifts, only: [:create, :index, :update]
 
   post '/leave_org', to: 'jobs#leave'
   delete '/organizations/:id', to: 'organizations#destroy'

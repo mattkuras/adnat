@@ -1,0 +1,2 @@
+class StoredShift < ApplicationRecord
+end

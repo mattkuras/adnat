@@ -1,5 +1,5 @@
 class ShiftSerializer < ActiveModel::Serializer
-  attributes :id, :start, :end, :employee, :hours_worked, :date, :shift_cost, :breaks
+  attributes :id, :start, :end, :employee, :hours_worked, :date, :shift_cost, :breaks, :overnight
   belongs_to :user
 
   def start

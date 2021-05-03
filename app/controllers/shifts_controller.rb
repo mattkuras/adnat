@@ -15,15 +15,18 @@ class ShiftsController < ApplicationController
     render json: shifts
   end
 
-  def update
-    shift = Shift.find_by(id: shift_params[:id])
-    shift.update(shift_params)
-    if shift.save 
-        render json: {success: 'ok', shift: shift}
-    else
-        render json: {error: 'there was an error updating this shift'}
-    end
-  end
+  # def update
+  #   shift = Shift.find_by(id: shift_params[:id])
+  #   shift.update(shift_params)
+  #   byebug
+  #   shift.set_time_and_breaks( params[:date][:shift_date], shift_params[:start_time], 'start', shift_params[:end_time], shift_params[:break_length])
+    
+  #       org = OrganizationSerializer.new(shift.organization)
+  #   render json: {success: 'ok', org: org}
+  #   else
+  #       render json: {error: 'there was an error updating this shift'}
+  #   end
+  # end
 
   def destroy
     shift = Shift.find_by(id: params[:id])
