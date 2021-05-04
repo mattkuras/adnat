@@ -21,7 +21,6 @@ const Dashboard = (props) => {
 
     useEffect(() => {
         fetchOrgs()
-        fetchOpenShifts()
     }, [])
 
     const fetchOrgs = () => {
@@ -31,28 +30,27 @@ const Dashboard = (props) => {
                 Authorization: `Bearer ${token}`
             }
         }).then(resp => {
-            console.log(resp.data)
-            setOrgs(resp.data)
-            console.log(orgs)
+            setOrgs(resp.data.organizations)
+            setOpenShifts(resp.data.stored_shifts)
+            console.log(orgs, openShifts)
         })
     }
-    const fetchOpenShifts = () => {
-        const token = localStorage.getItem("token")
-        Axios.get('/openshifts', {
-            headers: {
-                Authorization: `Bearer ${token}`
-            }
-        }).then(resp => {
-            if (resp.data.success){
-                console.log(resp.data.shifts)
-            setOpenShifts(resp.data.shifts)
-            console.log(openShifts)
-            }
-            else {
-                console.log(resp.data.error)
-            }
-        })
-    }
+    // const fetchOpenShifts = () => {
+    //     const token = localStorage.getItem("token")
+    //     Axios.get('/openshifts', {
+    //         headers: {
+    //             Authorization: `Bearer ${token}`
+    //         }
+    //     }).then(resp => {
+    //         if (resp.data.success){
+    //             console.log(resp.data.shifts)
+    //         console.log(openShifts)
+    //         }
+    //         else {
+    //             console.log(resp.data.error)
+    //         }
+    //     })
+    // }
 
 
     let { path, url } = useRouteMatch();
@@ -127,17 +125,22 @@ const Dashboard = (props) => {
                         submitForm={submitEditForm}
                         deleteOrg={deleteOrg}
                     /> : null}
-                    {showOrg ? <ShowOrg openShifts={openShifts} setShowOrg={setShowOrg} setOrg={setOrg} org={orgToShowOrEdit} setOrgs={setOrgs} orgs={orgs} /> : null}
+                    {showOrg ? <ShowOrg openShifts={openShifts}
+                        setOpenShifts={setOpenShifts}
+                        setShowOrg={setShowOrg}
+                        setOrg={setOrg}
+                        org={orgToShowOrEdit}
+                        setOrgs={setOrgs}
+                        orgs={orgs} /> : null}
 
                     <Route exact path={path}>
                         <Home orgs={orgs}
                             setOrgs={setOrgs}
                             setOrg={setOrg}
+                            org={orgToShowOrEdit}
                             setEditOrg={setEditOrg}
                             setShowOrg={setShowOrg}
                         /></Route>
-                    {/* <Route path={`${path}/editorg/:id`}><EditOrg redirect={redirect}/></Route>
-                    <Route path={`${path}/orgs/:id`}><ShowOrg redirect={redirect} /></Route> */}
                 </div>
             </Switch>
         </>

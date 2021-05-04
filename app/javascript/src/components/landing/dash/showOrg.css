@@ -1,14 +1,15 @@
 @import url('https://fonts.googleapis.com/css2?family=Varela+Round&display=swap');
 
 .show-div {
-    width: 700px;
+    width: auto;
     height: auto;
     margin: auto;
     z-index: 200;
     border: black solid 1px;
     padding: 10px;
     position: fixed; 
-    right: 25%;
+    right: auto;
+    left: auto;
     background: white;
     font-family: 'Varela Round', sans-serif;
   }

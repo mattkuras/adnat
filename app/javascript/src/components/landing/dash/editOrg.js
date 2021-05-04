@@ -14,7 +14,7 @@ const EditOrg = (props) => {
 
     return (
         <div className='edit-div'>
-            <span onClick={() => props.setEditOrg(false)}><AiOutlineClose/></span>
+            <span className='close-icon' onClick={() => props.setEditOrg(false)}><AiOutlineClose/></span>
             <form onSubmit={props.submitForm}>
                 <input type='text'
                     name='name'

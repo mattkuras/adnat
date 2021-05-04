@@ -1,13 +1,10 @@
 class StoredShift < ApplicationRecord
     belongs_to :organization
     
-    def start
-        self.start_time.strftime("%-l:%M%P") 
-    end
+    belongs_to :organization
 
-    def end
-        self.end_time.strftime("%-l:%M%P") 
-    end
+    validates :start_time, :end_time, :break_length, :organization_id, :user_id, presence: true
+
 
     def hours_worked
         x = ((self.end_time - self.start_time) / 3600)
@@ -23,6 +20,34 @@ class StoredShift < ApplicationRecord
         x = (not_sunday_hours * organization.hourly_rate) + (sun_hours * 2 * organization.hourly_rate)
         '%.2f' % x
     end
+
+    def overnight
+        start_time.hour > end_time.hour ? 'yes' : 'no'
+    end
+
+    def set_time_and_breaks(date, s_time, start, e_time, string)
+        set_date(date, s_time, start)
+        set_date(date, e_time)
+        if overnight == 'yes'
+            self.end_time = end_time + 1.day 
+        end
+        set_breaks(string)
+        self
+    end
+
+    def store 
+        shift = {organization_id: organization_id, user_id: nil, start_time: start_time, end_time: end_time, break_length: break_length}
+        StoredShift.new(shift)
+    end
+
+    def pickup(u_id)
+        shift = {organization_id: organization_id, user_id: u_id, start_time: start_time, end_time: end_time, break_length: break_length}
+        Shift.new(shift)
+    end
+
+
+    private 
+
 
     def sunday_hours(e_time)
         total_time = e_time.strftime("%H:%M")
@@ -62,40 +87,18 @@ class StoredShift < ApplicationRecord
     end
 
     def set_date(date, time, start_or_end = nil)
-        date = date.split(',').map{|e| e.to_i}
-        time = time.split(',').map{|e| e.to_i}
-        x = DateTime.new(date[0], date[1], date[2], time[0], time[1])
+        if date.include?('/') 
+            data = date.split('/').map{|e| e.to_i}
+            date = []
+            date.push(data[2], data[0], data[1])
+            time = time.split(':').map{|e| e.to_i}
+        else 
+            date = date.split(',').map{|e| e.to_i} 
+            time = time.split(',').map{|e| e.to_i}
+        end
+            x = DateTime.new(date[0], date[1], date[2], time[0], time[1])
         start_or_end == 'start' ? self.start_time = x : self.end_time = x  
     end
 
-    def overnight
-        start_time.hour > end_time.hour ? 'yes' : 'no'
-    end
-
-    def set_time_and_breaks(date, s_time, start, e_time, string)
-        set_date(date, s_time, start)
-        set_date(date, e_time)
-        if overnight == 'yes'
-            self.end_time = end_time + 1.day 
-        end
-        set_breaks(string)
-        self
-    end
-
-
-    def breaks 
-        if self.break_length.length == 1 
-          return  self.break_length.to_s
-        else 
-          x = ''
-          self.break_length.map{|i| x << i.to_s + ', ' }
-           2.times {x.chop!}
-           return x
-        end
-    end
-
-    def pickup(u_id)
-        shift = {organization_id: organization_id, user_id: u_id, start_time: start_time, end_time: end_time, break_length: break_length}
-        Shift.new(shift)
-    end
+   
 end

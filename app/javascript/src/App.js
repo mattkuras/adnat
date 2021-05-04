@@ -56,7 +56,11 @@ function App() {
     <Router>
       <UserContext.Provider value={{ user, userOrgs, setUserOrgs }} >
         <Route exact path='/'><Landing /></Route>
-        <Route path='/login'><Login handleLogin={handleLogin} /></Route>
+        <Route path='/login'>
+          <Login handleLogin={handleLogin} />
+          {loggedIn ? null : <Redirect to="/login" />}
+          {loggedIn ? <Redirect to="/dashboard" /> : null}
+        </Route>
         <Route path='/signup'><Signup handleLogin={handleLogin} /></Route>
         <Route path='/dashboard'>
           <Dashboard handleLogout={handleLogout} />

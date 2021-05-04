@@ -14,9 +14,10 @@ const ShowOrg = (props) => {
    const [shiftInQuestion, setShiftInQuestion] = useState({})
    const [editOrDeleteRow, setEditOrDeleteRow] = useState(false)
    const [openShiftsTable, setOpenShiftsTable] = useState(false)
+
    const editRow = (shift) => {
-      editOrDeleteRow(false)
       setEditRowStatus(true)
+      setEditOrDeleteRow(false)
       setRow(shift)
    }
    const handleRowChange = (e) => {
@@ -33,6 +34,7 @@ const ShowOrg = (props) => {
 
    const Confirmation = () => {
       return <div className='confirm'>
+         <span onClick={() => setEditOrDeleteRow(false)}><AiOutlineClose className="close-icon" /></span>
          <h1>Would you like to edit or delete this shift?</h1>
          <div>
             <h2 onClick={() => editRow(shiftInQuestion)}>Edit</h2>
@@ -43,46 +45,46 @@ const ShowOrg = (props) => {
 
    const deleteShift = () => {
       let shift = {
-        id: shiftInQuestion.id
-     }
-     const token = localStorage.getItem("token")
-     Axios.post('/shifts/store', shift, {
-      headers: {
-          Authorization: `Bearer ${token}`
+         id: shiftInQuestion.id
       }
-  })
-     .then(resp => {
-        if (resp.data.success) {
-           console.log(resp)
-           setEditOrDeleteRow(false)
-           props.setOrg(resp.data.org)
-         }
-        else {
-           console.log(resp)
-        }
-     })
-   }
-
-   const pickUpShift = (id) => {
-      let shift = {
-         shift_id: id, 
-         user_id: context.user.id
-      }
-        const token = localStorage.getItem("token")
-        Axios.post('/shifts/pickup', shift, {
+      const token = localStorage.getItem("token")
+      Axios.post('/shifts/store', shift, {
          headers: {
-             Authorization: `Bearer ${token}`
-         }
-     })
-      .then(resp => {
-         if (resp.data.success) {
-            console.log(resp)
-          
-          }
-         else {
-            console.log(resp)
+            Authorization: `Bearer ${token}`
          }
       })
+         .then(resp => {
+            if (resp.data.success) {
+               console.log(resp)
+               setEditOrDeleteRow(false)
+               props.setOrg(resp.data.org)
+            }
+            else {
+               console.log(resp)
+            }
+         })
+   }
+
+   const pickUpShift = (s) => {
+      let shift = {
+         shift_id: s.id,
+         user_id: context.user.id
+      }
+      const token = localStorage.getItem("token")
+      Axios.post('/shifts/pickup', shift, {
+         headers: {
+            Authorization: `Bearer ${token}`
+         }
+      })
+         .then(resp => {
+            if (resp.data.success) {
+               props.setOpenShifts(resp.data.stored_shifts)
+               // props.setOrg(prevOrg =>[...prevOrg, resp.data.org])
+            }
+            else {
+               console.log(resp)
+            }
+         })
    }
 
    const handleSubmit = () => {
@@ -96,12 +98,12 @@ const ShowOrg = (props) => {
       }
       let date = { shift_date: row.date }
       console.log({ shift, date })
-        const token = localStorage.getItem("token")
-        Axios.patch('/shifts', { shift, date }, {
+      const token = localStorage.getItem("token")
+      Axios.patch('/shifts', { shift, date }, {
          headers: {
-             Authorization: `Bearer ${token}`
+            Authorization: `Bearer ${token}`
          }
-     })
+      })
          .then(resp => {
             console.log(resp.data.org)
             setEditRowStatus(false)
@@ -137,7 +139,7 @@ const ShowOrg = (props) => {
                </div>
             )
          })}
-         {editOrDeleteRow ? <Confirmation/> : null}
+         {editOrDeleteRow ? <Confirmation /> : null}
          <NewShift setOrg={props.setOrg} orgs={props.orgs} org={props.org} setOrgs={props.setOrgs} />
       </div>
    }
@@ -160,7 +162,7 @@ const ShowOrg = (props) => {
          {shifts.map((s) => {
             console.log(shifts)
             return (
-               <div key={s.id} className='shift-table-row' onDoubleClick={() => pickUpShift(s)}>
+               <div key={`*${s.id}`} className='shift-table-row' onDoubleClick={() => pickUpShift(s)}>
                   <div className='col-2' onDoubleClick={() => pickUpShift(s.id)}>{s.date}</div>
                   <div className='col-3'>{s.start}</div>
                   <div className='col-4'>{s.end}</div>
@@ -171,7 +173,7 @@ const ShowOrg = (props) => {
                </div>
             )
          })}
-         {editOrDeleteRow ? <Confirmation/> : null}
+         {editOrDeleteRow ? <Confirmation /> : null}
       </div>
    }
 
@@ -186,15 +188,18 @@ const ShowOrg = (props) => {
          {showTable ? <ShiftsTable /> : <h4 onClick={() => { setShowTable(true) }}>Show Shifts</h4>}
          {openShiftsTable ? <OpenShiftsTable /> : <h4 onClick={() => { setOpenShiftsTable(true) }}>Show Open Shifts</h4>}
          {/* edit form  below */}
-         {editRowStatus ? <div key='edit-shift' className='shift-table-row with-edit-form'>
-            <div className='col-1'><input value={row.employee} name='employee' /></div>
-            <div className='col-2'><input onChange={handleRowChange} type='text' value={row.date} name='date' /></div>
-            <div className='col-3'><input type='text' onChange={handleRowChange} value={row.start} name='start' /></div>
-            <div className='col-4'><input type='text' onChange={handleRowChange} value={row.end} name='end' /></div>
-            <div className='col-5'><input type='text' onChange={handleRowChange} value={row.breaks} name='breaks' /></div>
-            <div className='col-8'><button className='new-shift-button' onClick={handleSubmit} >Edit Shift</button></div>
-         </div> : null}
-
+         {editRowStatus ?
+            <div className='edit-shift-container'>
+               <h3>Edit Shift</h3>
+               <div key='edit-shift' className='shift-table-row with-edit-form'>
+                  <div className='col-1'><input value={row.employee} name='employee' /></div>
+                  <div className='col-2'><input onChange={handleRowChange} type='text' value={row.date} name='date' /></div>
+                  <div className='col-3'><input type='text' onChange={handleRowChange} value={row.start} name='start' /></div>
+                  <div className='col-4'><input type='text' onChange={handleRowChange} value={row.end} name='end' /></div>
+                  <div className='col-5'><input type='text' onChange={handleRowChange} value={row.breaks} name='breaks' /></div>
+                  <div className='col-8'><button className='new-shift-button' onClick={handleSubmit} >Edit Shift</button></div>
+               </div>
+            </div> : null}
 
       </div>
    );

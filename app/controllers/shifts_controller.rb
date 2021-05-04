@@ -17,18 +17,16 @@ class ShiftsController < ApplicationController
     render json: shifts
   end
 
-  # def update
-  #   shift = Shift.find_by(id: shift_params[:id])
-  #   shift.update(shift_params)
-  #   byebug
-  #   shift.set_time_and_breaks( params[:date][:shift_date], shift_params[:start_time], 'start', shift_params[:end_time], shift_params[:break_length])
-    
-  #       org = OrganizationSerializer.new(shift.organization)
-  #   render json: {success: 'ok', org: org}
-  #   else
-  #       render json: {error: 'there was an error updating this shift'}
-  #   end
-  # end
+  def update
+    shift = Shift.find_by(id: shift_params[:id])
+    shift.set_time_and_breaks( params[:date][:shift_date], shift_params[:start_time], 'start', shift_params[:end_time], shift_params[:break_length])
+    if shift.save
+        org = OrganizationSerializer.new(shift.organization)
+        render json: {success: 'ok', org: org}
+    else
+        render json: {error: 'there was an error updating this shift'}
+    end
+  end
 
   def destroy
     shift = Shift.find_by(id: params[:id])
@@ -52,19 +50,22 @@ class ShiftsController < ApplicationController
   end
 
   def open_shifts 
-    shifts = StoredShift.all
+      shifts = StoredShift.all
       open_shifts = shifts.map{|s| StoredShiftSerializer.new(s)} 
       render json: {success: 'ok', shifts: open_shifts}
   end
 
   def pickup
-    shift = Shift.find_by(id: shift_params[:id])
-    # shift = StoredShift.all.where(id: shift_params[:id]).first
-    pickedup_shift = shift.pickup(shift_params[:user_id])
-    if pickedup_shift.save
-      render json: {success: 'ok', shifts: open_shifts}
+    ss = StoredShift.find_by(id: params[:shift_id])
+    shift = ss.pickup(params[:user_id])
+
+    if shift.save && ss.destroy
+      shifts = StoredShift.all
+      stored_shifts = shifts.map{|s| StoredShiftSerializer.new(s)} 
+      org = shift.organization
+      render json: {success: 'ok', stored_shifts: stored_shifts, org: org}
     else 
-      render json: {error: pickedup_shift.errors}
+      render json: {error: shift.errors}
     end
   end
 

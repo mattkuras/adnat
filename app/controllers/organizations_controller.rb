@@ -3,9 +3,14 @@ class OrganizationsController < ApplicationController
 
 
     def index 
+        # get orgs
         organizations = Organization.all 
-        render json: organizations
-        # render json: organizations.to_json(include: [:shifts, :users])
+        organizations = organizations.map{|o| OrganizationSerializer.new(o)} 
+        # get shifts
+        shifts = StoredShift.all
+        stored_shifts = shifts.map{|s| StoredShiftSerializer.new(s)} 
+        
+        render json: {organizations: organizations, stored_shifts: stored_shifts }
     end
     
     def create
