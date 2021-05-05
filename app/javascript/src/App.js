@@ -58,7 +58,7 @@ function App() {
       <UserContext.Provider value={{ user, userOrgs, setUserOrgs }} >
       <div className='header'>
             <h1>Welcome to Adnat, {user ? user.name : 'name isnt loading'}</h1>
-            <h1 className='logout' >Logout</h1>
+            <h1 className='logout' onClick={handleLogout}>Logout</h1>
             </div>
         <Route exact path='/'><Landing /></Route>
         <Route path='/login'>
