@@ -5,6 +5,12 @@ class Organization < ApplicationRecord
 
     validates :name, :hourly_rate, :description, presence: true
     validates :hourly_rate, format: { with: /\A\d+\z/, message: "Integer only" }
+    validate :numbers
 
+    def numbers
+        if hourly_rate < 1
+            errors.add(:hourly_rate, "hourly rate must be a number. 1 or greater")
+        end
+    end
   
 end
