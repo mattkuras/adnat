@@ -21,7 +21,7 @@ const Signup = (props) => {
       }
       Axios.post('/signup', { user })
           .then(response => {
-              if (response.data.user) {
+              if (response.data.success) {
                   setMessage('success!')
                   setMessageSent(true)
                   props.handleLogin(response.data.user)
@@ -29,7 +29,8 @@ const Signup = (props) => {
               }
               else {
                   setMessageSent(true)
-                  setMessage(response.data.message)
+                  console.log(response.data.errors)
+                //   setMessage(response.data.errors)
               }
           })
       setEmail('')

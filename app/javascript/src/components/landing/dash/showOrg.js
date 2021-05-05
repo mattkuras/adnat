@@ -111,7 +111,11 @@ const ShowOrg = (props) => {
          })
    }
 
+
    const ShiftsTable = () => {
+   const sortedShifts = props.org.shifts.sort(function(a,b){
+      return new Date(b.date) - new Date(a.date);
+    });
       return <div className='shifts-table'>
          <p>double click on a shift for options</p>
          <p className='hide-table' onClick={() => setShowTable(false)}>Hide Table </p>
@@ -125,7 +129,7 @@ const ShowOrg = (props) => {
             <div className='col-7'>Shift Cost</div>
             <div className='col-9'>Overnight?</div>
          </div>
-         {props.org.shifts.map((s) => {
+         {sortedShifts.map((s) => {
             return (
                <div key={s.id} className='shift-table-row' onDoubleClick={() => confirm(s)}>
                   <div className='col-1'>{s.employee}</div>
@@ -140,7 +144,7 @@ const ShowOrg = (props) => {
             )
          })}
          {editOrDeleteRow ? <Confirmation /> : null}
-         <NewShift setOrg={props.setOrg} orgs={props.orgs} org={props.org} setOrgs={props.setOrgs} />
+         {context.userOrgs.find(o => o.id == props.org.id) ? <NewShift setOrg={props.setOrg} orgs={props.orgs} org={props.org} setOrgs={props.setOrgs} /> : null} 
       </div>
    }
    const OpenShiftsTable = () => {

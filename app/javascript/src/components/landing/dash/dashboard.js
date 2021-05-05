@@ -92,10 +92,10 @@ const Dashboard = (props) => {
     const deleteOrg = (e) => {
         e.preventDefault();
         let organization = {
-            id: org.id,
+            id: orgToShowOrEdit.id,
         };
         const token = localStorage.getItem("token")
-        Axios.delete(`/organizations/${org.id}`, { organization }, {
+        Axios.delete(`/organizations/${orgToShowOrEdit.id}`, { organization }, {
             headers: {
                 Authorization: `Bearer ${token}`
             }
@@ -105,6 +105,7 @@ const Dashboard = (props) => {
                     console.log('success')
                     setEditOrg(false)
                     fetchOrgs()
+                    setEditOrg(false)
                 }
                 else {
                     console.log(resp.data)
@@ -116,8 +117,7 @@ const Dashboard = (props) => {
 
 
     return (
-        <>
-            <Switch>
+        
                 <div className='dash-container'>
                     {editOrg ? <EditOrg setEditOrg={setEditOrg}
                         org={orgToShowOrEdit}
@@ -132,6 +132,7 @@ const Dashboard = (props) => {
                         org={orgToShowOrEdit}
                         setOrgs={setOrgs}
                         orgs={orgs} /> : null}
+            <Switch>
 
                     <Route exact path={path}>
                         <Home orgs={orgs}
@@ -140,10 +141,10 @@ const Dashboard = (props) => {
                             org={orgToShowOrEdit}
                             setEditOrg={setEditOrg}
                             setShowOrg={setShowOrg}
+                            handleLogout={props.handleLogout}
                         /></Route>
-                </div>
             </Switch>
-        </>
+                </div>
     );
 }
 

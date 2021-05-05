@@ -1,5 +1,5 @@
 class OrganizationsController < ApplicationController
-  before_action :require_user_login
+  before_action :require_user_login, except: [:destroy]
 
 
     def index 
@@ -18,7 +18,7 @@ class OrganizationsController < ApplicationController
         if organization.save 
             render json: {success: 'success', organization: organization}
         else
-            render json: {error: 'there was an error creating this org'}
+            render json: {error: organization.errors}
         end
     end
 
@@ -34,7 +34,7 @@ class OrganizationsController < ApplicationController
 
     def destroy
         org = Organization.find_by(id: params[:id])
-        if org.jobs.destroy_all && org.destroy 
+        if org.jobs.destroy_all && org.destroy && org.shifts.all.destroy_all
             render json: {success: 'ok', message: ''}
         else
             render json: {error: 'there was an error destroying this org'}

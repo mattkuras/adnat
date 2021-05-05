@@ -4,7 +4,8 @@ class User < ApplicationRecord
   has_many :jobs
   has_many :organizations, through: :jobs
 
-  validates :name, :email, :password, presence: true
+  validates :name, :email_address, :password, presence: true
+  validates :email_address, uniqueness: true
 
   def generate_password_token!
     self.reset_password_token = generate_token

@@ -22,7 +22,7 @@ const NewOrgForm = (props) => {
                     props.setOrgs(prevOrgs => [...prevOrgs, resp.data.organization])
                 }
                 else {
-                    console.log(resp.data)
+                    console.log(resp.data.errors)
                 }
             })
     }

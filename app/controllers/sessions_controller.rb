@@ -16,7 +16,11 @@ class SessionsController < ApplicationController
         # render json: {user: user.to_json(include: [:organizations]), jwt: token, success: "hey dude" }
         render json: {user: user, user_orgs: user.organizations, jwt: token, success: "hey dude" }
       else
-        render json: { failure: "there was an error logging in. check your email and password" }
+        if user 
+          render json: { errors: user.errors }
+        else 
+          render json: { errors: 'no user matches your input' }
+        end
       end
     end
   

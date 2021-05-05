@@ -44,6 +44,7 @@ function App() {
     setLoggedIn(true)
   }
   const handleLogout = () => {
+    console.log('logout')
     localStorage.clear()
     setUser({})
     setLoggedIn(false)
@@ -55,13 +56,20 @@ function App() {
   return (
     <Router>
       <UserContext.Provider value={{ user, userOrgs, setUserOrgs }} >
+      <div className='header'>
+            <h1>Welcome to Adnat, {user ? user.name : 'name isnt loading'}</h1>
+            <h1 className='logout' >Logout</h1>
+            </div>
         <Route exact path='/'><Landing /></Route>
         <Route path='/login'>
           <Login handleLogin={handleLogin} />
           {loggedIn ? null : <Redirect to="/login" />}
           {loggedIn ? <Redirect to="/dashboard" /> : null}
         </Route>
-        <Route path='/signup'><Signup handleLogin={handleLogin} /></Route>
+        <Route path='/signup'>
+          <Signup handleLogin={handleLogin} />
+          {loggedIn ? null : <Redirect to="/login" />}
+          </Route>
         <Route path='/dashboard'>
           <Dashboard handleLogout={handleLogout} />
           {loggedIn ? null : <Redirect to="/login" />}

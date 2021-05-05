@@ -32,7 +32,6 @@ const Home = (props) => {
                     console.log(resp.data)
                     if (resp.data.success == 'joined') {
                         context.setUserOrgs(prevOrgs => [...prevOrgs, resp.data.org])
-                        setMessage("you're in!")
                     }
                     else if (resp.data.success == 'left') {
                         console.log(context.userOrgs)
@@ -82,8 +81,7 @@ const Home = (props) => {
 
     return (
         <div>
-            <h1>Welcome to Adnat, {context.user ? context.user.name : 'name isnt loading'}</h1>
-            {context.userOrgs.length == 0 ? <NoOrgsMessage /> : null}
+            {context.userOrgs && context.userOrgs.length == 0 ? <NoOrgsMessage /> : null}
             <NewOrgForm setOrgs={props.setOrgs} />
             <OrgsList />
         </div>

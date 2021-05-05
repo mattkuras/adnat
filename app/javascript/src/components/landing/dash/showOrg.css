@@ -7,9 +7,8 @@
     z-index: 200;
     border: black solid 1px;
     padding: 10px;
-    position: fixed; 
-    right: auto;
-    left: auto;
+    position: absolute;
+    left: 20%;
     background: white;
     font-family: 'Varela Round', sans-serif;
   }

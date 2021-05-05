@@ -23,12 +23,16 @@ const Login = (props) => {
         axios.post("/login", { user })
             .then(resp => {
                 if (resp.data.success) {
+                    setMessageSent(true)
+                    setMessage('Success!')
                     localStorage.setItem("token", resp.data.jwt)
                     props.handleLogin(resp.data.user, resp.data.user_orgs)
                     redirect()
                 }
                 else {
-                    console.log(resp.data.failure)
+                    console.log(resp.data.errors)
+                    setMessageSent(true)
+                    setMessage(resp.data.errors)
                 }
 
             })
@@ -52,7 +56,7 @@ const Login = (props) => {
                     setMessageSent(true)
                 }
                 else {
-                    setMessage(resp.data.error)
+                    setMessage(resp.data.errors)
                     console.log(resp.data.error)
                     setMessageSent(true)
                 }
@@ -71,6 +75,7 @@ const Login = (props) => {
     return (
         <div>
             <div className='login-container'>
+                <h1>Login</h1>
                 <form className="login-form" onSubmit={handleSubmit}>
                     <div className="input-container">
                         <label for="username">Email: </label>
