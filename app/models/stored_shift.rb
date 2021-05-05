@@ -1,9 +1,7 @@
 class StoredShift < ApplicationRecord
     belongs_to :organization
     
-    belongs_to :organization
-
-    validates :start_time, :end_time, :break_length, :organization_id, :user_id, presence: true
+    validates :start_time, :end_time, :break_length, :organization_id, presence: true
 
 
     def hours_worked

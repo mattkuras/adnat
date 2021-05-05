@@ -58,7 +58,6 @@ class ShiftsController < ApplicationController
   def pickup
     ss = StoredShift.find_by(id: params[:shift_id])
     shift = ss.pickup(params[:user_id])
-
     if shift.save && ss.destroy
       shifts = StoredShift.all
       stored_shifts = shifts.map{|s| StoredShiftSerializer.new(s)} 

@@ -113,9 +113,9 @@ const ShowOrg = (props) => {
 
 
    const ShiftsTable = () => {
-   const sortedShifts = props.org.shifts.sort(function(a,b){
-      return new Date(b.date) - new Date(a.date);
-    });
+      const sortedShifts = props.org.shifts.sort(function (a, b) {
+         return new Date(b.date) - new Date(a.date);
+      });
       return <div className='shifts-table'>
          <p>double click on a shift for options</p>
          <p className='hide-table' onClick={() => setShowTable(false)}>Hide Table </p>
@@ -130,8 +130,9 @@ const ShowOrg = (props) => {
             <div className='col-9'>Overnight?</div>
          </div>
          {sortedShifts.map((s) => {
+            let status = s.organization_id == context.user.id
             return (
-               <div key={s.id} className='shift-table-row' onDoubleClick={() => confirm(s)}>
+               <div key={s.id} className='shift-table-row' onDoubleClick={status ? () => confirm(s) : null}>
                   <div className='col-1'>{s.employee}</div>
                   <div className='col-2'>{s.date}</div>
                   <div className='col-3'>{s.start}</div>
@@ -144,12 +145,11 @@ const ShowOrg = (props) => {
             )
          })}
          {editOrDeleteRow ? <Confirmation /> : null}
-         {context.userOrgs.find(o => o.id == props.org.id) ? <NewShift setOrg={props.setOrg} orgs={props.orgs} org={props.org} setOrgs={props.setOrgs} /> : null} 
+         {context.userOrgs.find(o => o.id == props.org.id) ? <NewShift setOrg={props.setOrg} orgs={props.orgs} org={props.org} setOrgs={props.setOrgs} /> : null}
       </div>
    }
    const OpenShiftsTable = () => {
       let shifts = props.openShifts.filter(s => s.organization_id == props.org.id)
-      console.log(shifts)
       return <div className='shifts-table'>
          <p>double click on a row to pick up a shift </p>
          <p className='hide-table' onClick={() => setOpenShiftsTable(false)}>Hide Table </p>
@@ -164,10 +164,10 @@ const ShowOrg = (props) => {
             <div className='col-9'>Overnight?</div>
          </div>
          {shifts.map((s) => {
-            console.log(shifts)
+            let status = s.organization_id == context.user.id
             return (
                <div key={`*${s.id}`} className='shift-table-row' onDoubleClick={() => pickUpShift(s)}>
-                  <div className='col-2' onDoubleClick={() => pickUpShift(s.id)}>{s.date}</div>
+                  <div className='col-2' onDoubleClick={() => status ? pickUpShift(s.id) : null}>{s.date}</div>
                   <div className='col-3'>{s.start}</div>
                   <div className='col-4'>{s.end}</div>
                   <div className='col-5'>{s.breaks}</div>

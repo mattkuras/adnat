@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_05_03_050535) do
+ActiveRecord::Schema.define(version: 2021_05_05_141646) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -46,12 +46,11 @@ ActiveRecord::Schema.define(version: 2021_05_03_050535) do
 
   create_table "stored_shifts", force: :cascade do |t|
     t.bigint "organization_id"
-    t.bigint "user_id"
     t.datetime "start_time"
     t.datetime "end_time"
     t.integer "break_length", default: [], array: true
+    t.integer "user_id"
     t.index ["organization_id"], name: "index_stored_shifts_on_organization_id"
-    t.index ["user_id"], name: "index_stored_shifts_on_user_id"
   end
 
   create_table "users", force: :cascade do |t|
